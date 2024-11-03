@@ -1,0 +1,105 @@
+# Introduction
+
+The Adobe design icon team is responsible for designing, supporting, and managing more than 20,000 UI design icons across all Adobe software products, from Adobe Photoshop to Adobe Experience Cloud GenStudio. One of their daily challenges is handling specific UI icon requests from product designers and development teams. Efficiently searching through these 20,000 icons using natural language descriptions or even product screenshots could help avoid duplicate efforts and ensure a unified design and user experience. Additionally, it could inspire icon designers to identify and leverage existing icons that match their envisioned designs.
+
+## Why Fine-Tune a Pre-Trained ViT Model?
+
+After testing many existing open-source ViT models, we realized that almost none of them were specifically trained on UI design icons, cursors, or illustrations. While they can capture the visual features of these icons, they often struggle to understand the abstract meanings behind them, particularly when classifying well-known software product logos.
+
+## Objectives
+
+1. **Accurately Extract Features from UI Design Assets**: Adapt the pre-trained ViT model to effectively recognize and extract features from UI design icons, cursors, and illustrations, ensuring the unique characteristics of these assets are captured.
+
+2. **Combine Visual Features with Abstract Meanings**: Enhance the embedding vectors by combining both the visual features and abstract semantic meanings, allowing for a richer and more contextually accurate representation of UI assets.
+
+3. **Generate High-Quality Embeddings for Semantic Search**: Create high-quality embedding vectors for UI design assets, which can be used for efficient retrieval and classification tasks, focusing on both precision and recall while supporting semantic similarity searches.
+
+# Fine-Tuning Workflow
+
+## 1. Training Data Preparation
+
+CLIP (Contrastive Language-Image Pre-training) is trained using a vast dataset of image-text pairs, enabling it to learn associations between visual content and corresponding textual descriptions. Here is an example:
+
+- **Image**: "a4u-ds-desktop-workflow-icons-2.2.0/Cancel\_20.png"
+
+The pre-trained model **openai/clip-vit-large-patch14** uses a patch size of **14x14 pixels**. For fine-tuning, all training images should be resized to **224x224 pixels** to match the model's architecture. This resizing results in a **16 x 16 grid** of patches (since **224 pixels / 14 pixels = 16**), giving a total of **256 patches** (**16 x 16 = 256**). Given the generally simple nature of UI design assets, this configuration is sufficient for capturing all necessary details while maintaining a balance between model complexity, training time, and performance. Additionally, images must be in **RGB mode** (not **RGBA**) to ensure compatibility with the **torchvision.models** module.
+
+- **Caption**: "An icon of a circle with a diagonal line, representing the action of canceling or stopping a process in the Workflow icon package for Substance 3D, designed for Desktop scale, for Substance 3D Designer, with Spectrum 1."
+
+The caption is structured as follows:
+
+- **Visual Feature**: "An icon of a circle with a diagonal line."
+- **Abstract Meaning**: "Representing the action of canceling or stopping a process."
+- **Additional Context**: Product name, image scale, and compatible design language version.
+
+These contextual elements are crucial as they provide product-specific information that the pre-trained model lacks. Note that the token length for this example is approximately 48. Ensure each training data caption remains under 77 tokens, as the pre-trained model can only process captions up to this length—any excess content will be truncated during training.
+
+## 2. Model Fine-Tuning with OpenCLIP
+
+We chose OpenCLIP for model fine-tuning because it provides access to models trained on diverse datasets such as LAION-400M, LAION-2B, and DataComp-1B. These models have demonstrated excellent scalability and competitive zero-shot accuracy on benchmarks like ImageNet-1k, making OpenCLIP a powerful, flexible, and reproducible option for our needs. Additionally, OpenCLIP supports both command-line and Python API interfaces, offering flexibility for different use cases.
+
+### Command Used for Fine-Tuning
+
+```bash
+CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc_per_node 4 -m open_clip_train.main \
+    --train-data /home/jliao/Repos/open_clip/training_data_10_27.csv \
+    --dataset-type csv \
+    --csv-separator="," \
+    --csv-img-key file_path \
+    --csv-caption-key caption \
+    --workers 2 \
+    --batch-size 60 \
+    --epochs 64 \
+    --lr 5e-6 \
+    --wd 0.1 \
+    --warmup 10000 \
+    --save-frequency 1 \
+    --precision amp \
+    --model ViT-L-14 \
+    --pretrained /home/jliao/Repos/open_clip/pretrained_models/ViT-L-14.pt \
+    --report-to tensorboard \
+    --delete-previous-checkpoint
+```
+
+### Explanation of Command Parameters
+
+- **--train-data**: Path to the file(s) with training data. When using webdataset, multiple data sources can be combined using the `::` separator.
+- **--dataset-type**: Type of dataset to process. In this case, `csv` is used.
+- **--csv-separator**: Specifies the CSV file separator.
+- **--csv-img-key**: Column name for the image file path.
+- **--csv-caption-key**: Column name for the image caption.
+- **--workers**: Number of dataloader workers per GPU. A value of 2 is suitable for RTX 3090.
+- **--batch-size**: Batch size per GPU. Reduce it if Out-Of-Memory (OOM) errors occur.
+- **--epochs**: Number of training epochs.
+- **--lr**: Learning rate.
+- **--wd**: Weight decay.
+- **--warmup**: Number of warmup steps.
+- **--save-frequency**: Frequency of saving checkpoints.
+- **--precision**: Floating point precision (e.g., AMP for mixed precision).
+- **--model**: Vision backbone model to use (e.g., ViT-L-14).
+- **--pretrained**: Path to the pre-trained CLIP model weights.
+- **--report-to**: Destination for training reports (e.g., TensorBoard).
+- **--delete-previous-checkpoint**: Deletes the previously saved checkpoint to save storage.
+
+**Visualization**: Present training metrics such as loss and accuracy over time using line graphs. Include visualizations of attention maps or feature embeddings to demonstrate the model's learning progression. Tools like TensorBoard can be used to provide real-time monitoring and visual insight into these metrics.
+
+## 3. Testing with the Newly Generated Model
+
+**Documentation**: Describe the evaluation methodology, including test datasets, performance metrics, and comparative analyses with baseline models.
+
+- **Evaluation Metrics**: Use metrics like accuracy, precision, recall, and F1-score to evaluate performance.
+- **Comparison with Baseline Models**: Detail how the fine-tuned model compares with pre-existing baseline models.
+
+**Visualization**: Showcase qualitative results by displaying input images alongside the model's predictions. Use confusion matrices and ROC curves to provide quantitative insights into model performance. Additionally, show example queries and their top matches to illustrate the improvements in semantic search capability.
+
+# Appendix A: Hardware Specifications
+
+The fine-tuning workflow was executed using the following hardware setup:
+
+- **GPUs**: 4 x NVIDIA RTX 3090 (3 Founders Edition, 1 Zotac)
+- **CPU**: AMD EPYC™ 7282
+- **Motherboard**: ASRock Rack ROMED8-2T
+- **RAM**: 128 GB DDR4 3200 MHz ECC
+- **Storage**: 2 TB NVMe M.2 SSD for fast data access
+
+This setup provided ample computational power to efficiently handle data processing and model training tasks. The use of mixed precision helped optimize memory usage. For those without similar hardware, cloud-based platforms with comparable GPU capabilities can be used to achieve similar results.
