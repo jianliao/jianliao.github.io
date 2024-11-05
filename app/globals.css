@@ -1,42 +1,92 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.prose .anchor {
+  @apply absolute invisible no-underline;
+  margin-left: -1em;
+  padding-right: 0.5em;
+  width: 100%;
+  max-width: 700px;
+  cursor: pointer;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.anchor:hover {
+  @apply visible;
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+.prose .anchor:after {
+  @apply text-slate-400 dark:text-slate-200;
+  content: "#";
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.prose *:hover > .anchor {
+  @apply visible;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+.prose pre {
+  border-radius: 0;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.prose ul {
+  word-wrap: break-word;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+table {
+  @apply border border-slate-200 dark:border-slate-600 border-collapse m-0 p-0 w-full !table-fixed;
+}
+
+table tr {
+  @apply border border-slate-200 dark:border-slate-600 bg-slate-50 p-2 dark:bg-slate-800 break-words;
+}
+
+table th,
+table td {
+  @apply !p-2 text-center !align-middle text-sm;
+}
+
+.LC {
+  background: #066;
+  color: #fff;
+}
+
+.NE {
+  background: #eee;
+  color: #000;
+}
+
+.EN {
+  background: #c63;
+  color: #fc9;
+}
+
+.EW {
+  background: #000;
+  color: #fff;
+}
+
+.EX {
+  background: #000;
+  color: #c33;
+}
+
+.NT {
+  background: #066;
+  color: #9c9;
+}
+
+.VU {
+  background: #c90;
+  color: #ffc;
+}
+
+.DD {
+  background: #fff;
+  color: #000;
+  border: 1px solid #000;
+}
+
+.CR {
+  background: #c33;
+  color: #fcc;
 }
