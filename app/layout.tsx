@@ -22,18 +22,18 @@ export default function RootLayout({
       <body className={`flex flex-col h-screen ${LocalFont.className}`}>
         <ThemeProvider enableSystem={true} attribute="class">
           <Header />
-          <main className="max-w-3xl container text-black dark:text-white mx-auto px-6 py-6 flex-1 leading-6">
+          <main className="max-w-4xl container text-black dark:text-white mx-auto px-6 py-6 flex-1 leading-6">
             {children}
           </main>
           <Footer />
         </ThemeProvider>
-        {process.env.NODE_ENV === "production" && (
+        {/* {process.env.NODE_ENV === "production" && (
           <Script
             async
             src={process.env.UMAMI_SCRIPT_URL}
             data-website-id={process.env.UMAMI_DATA_WEBSITE_ID}
           />
-        )}
+        )} */}
       </body>
     </html>
   );

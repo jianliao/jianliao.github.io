@@ -1,12 +1,19 @@
 import { notFound } from "next/navigation";
 import allPosts from "generated/content.json";
-
+import { readFileSync } from "fs";
 import Image from "next/image";
-import Comment from "@/components/comment";
 import CustomMDX from "@/components/custom-mdx";
-import ViewCounter from "@/components/view-counter";
 
-export default async function PostPage(props: { params: Promise<{ slug: string }> }) {
+/* Same as: getStaticPaths */
+export async function generateStaticParams() {
+  // Read the file "${projectRoot}/generated/content.json" as JSON and generate the static paths
+  const posts = JSON.parse(readFileSync("generated/content.json", "utf-8"));
+  return posts.map((post: any) => ({ slug: post.slug }));
+}
+
+export default async function PostPage(props: {
+  params: Promise<{ slug: string }>;
+}) {
   const params = await props.params;
   const post = allPosts.find((post) => post.slug === params.slug);
   if (!post) notFound();
@@ -18,23 +25,22 @@ export default async function PostPage(props: { params: Promise<{ slug: string }
       <div className="flex items-start justify-between w-full md:flex-row my-8">
         <div className="flex items-center">
           <Image
-            alt="Shen Lu"
+            alt="Jian Liao"
             height={36}
             width={36}
             sizes="20vw"
-            src="/images/avatar.jpg"
+            src="/images/avatar.png"
             className="rounded-full mt-0 mb-0"
             priority
           />
           <div className="ml-2 text-sm text-slate-600 dark:text-slate-400">
             <span className="flex text-black dark:text-slate-200 font-bold">
-              Shen Lu
+              Jian Liao
             </span>
             <div>Posted on {post.publishedAt}</div>
           </div>
         </div>
         <div className="flex flex-col text-sm text-slate-600 dark:text-slate-400 min-w-32 md:mt-0">
-          <ViewCounter slug={post.slug} method={"POST"} />
           <div>
             {post.readingTime}
             {` (`}
@@ -46,7 +52,6 @@ export default async function PostPage(props: { params: Promise<{ slug: string }
       <div className="w-full prose dark:prose-invert max-w-none mb-8">
         <CustomMDX source={post.content} />
       </div>
-      <Comment />
     </article>
   );
 }

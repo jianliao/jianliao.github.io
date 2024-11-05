@@ -1,13 +1,13 @@
 {
-  "name": "shenlu.me",
-  "version": "2.5.1",
+  "name": "jianliao.github.io",
+  "version": "0.1.0",
   "private": true,
-  "author": "Shen Lu <shenlu89dev@gmail.com>",
+  "author": "Jian Liao <jian.liao@gmail.com>",
   "license": "MIT",
-  "homepage": "https://shenlu.me",
+  "homepage": "https://jianliao.github.io",
   "repository": {
     "type": "git",
-    "url": "https://github.com/shenlu89/shenlu.me.git"
+    "url": "https://github.com/jianliao/jianliao.github.io.git"
   },
   "scripts": {
     "dev": "node --trace-warnings --experimental-strip-types lib/content.ts && next dev",
@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "@giscus/react": "^3.0.0",
-    "@upstash/redis": "^1.34.3",
     "country-flag-icons": "^1.5.13",
     "date-fns": "^4.1.0",
     "fuse.js": "^7.0.0",

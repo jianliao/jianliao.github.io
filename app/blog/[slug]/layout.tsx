@@ -2,19 +2,18 @@ import { Metadata } from "next";
 import { ReactNode } from "react";
 import allPosts from "generated/content.json";
 
-export async function generateMetadata(
-  props: {
-    params: Promise<{ slug: string }>;
-  }
-): Promise<Metadata | undefined> {
+export async function generateMetadata(props: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata | undefined> {
   const params = await props.params;
   const post = allPosts.find((post) => post.slug === params.slug);
   if (!post) return;
   const { title, slug, publishedAt: publishedTime } = post;
   const ogImage = `${
     process.env.NODE_ENV === "production"
-      ? "https://shenlu.me"
-      : "http://localhost:3000"}/og?title=${title}&time=${publishedTime}&slug=${slug}`;
+      ? "https://jianliao.github.io"
+      : "http://localhost:3000"
+  }/og?title=${title}&time=${publishedTime}&slug=${slug}`;
   return {
     title,
     description: title,
@@ -23,7 +22,7 @@ export async function generateMetadata(
       description: title,
       type: "article",
       publishedTime,
-      url: `https://shenlu.me/blog/${slug}`,
+      url: `https://jianliao.github.io/blog/${slug}`,
       images: [
         {
           url: ogImage,

@@ -1,7 +1,4 @@
 import Link from "@/components/custom-link";
-import SpeciesItem from "@/components/species-item";
-
-export const runtime = 'edge';
 
 export default function NotFound() {
   return (
@@ -20,7 +17,6 @@ export default function NotFound() {
         </span>
       </div>
       <hr className="my-4" />
-      <SpeciesItem />
     </>
   );
 }
