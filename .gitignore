@@ -16,9 +16,6 @@ generated/
 .env.production.local
 .env.staging.local
 
-# next.config.js
-next.config.js
-
 # misc
 *.log
 .DS_Store
