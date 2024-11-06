@@ -2,9 +2,6 @@ import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import { join, basename, extname } from "path";
 import readingTime from "reading-time";
 import { parseISO, format } from "date-fns";
-import { config } from "dotenv";
-
-config();
 
 type Metadata = {
   title: string;
@@ -41,12 +38,12 @@ function readMDXFile(filePath: string) {
 function getMDXData(dir: string) {
   let mdxFiles = getMDXFiles(dir);
   try {
-    mkdirSync(process.env.GENERATED_DIRECTORY as string, { recursive: true });
+    mkdirSync('generated', { recursive: true });
   } catch (e) {
     console.log("Cannot create folder ", e);
   }
   writeFileSync(
-    join(process.cwd(), process.env.GENERATED_FILE as string),
+    join(process.cwd(), 'generated/content.json'),
     JSON.stringify(
       mdxFiles
         .map((file) => {
@@ -70,4 +67,4 @@ function getMDXData(dir: string) {
   console.log("successfully generated!");
 }
 
-getMDXData(join(process.cwd(), process.env.BLOG_DIRECTORY as string));
+getMDXData(join(process.cwd(), 'content'));
