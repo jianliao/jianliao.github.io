@@ -39,6 +39,8 @@ The caption is structured as follows:
 
 These contextual elements are crucial as they provide product-specific information that the pre-trained model lacks. Note that the token length for this example is approximately 48. Ensure each training data caption remains under 77 tokens, as the pre-trained model can only process captions up to this length—any excess content will be truncated during training.
 
+The training dataset used for this fine-tuning process is available on Hugging Face: [Spectrum Icons Dataset](https://huggingface.co/datasets/JianLiao/spectrum-icons). This dataset includes a collection of UI design icons along with corresponding captions to aid in the training process.
+
 ## 2. Model Fine-Tuning with OpenCLIP
 
 We chose OpenCLIP for model fine-tuning because it provides access to models trained on diverse datasets such as LAION-400M, LAION-2B, and DataComp-1B. These models have demonstrated excellent scalability and competitive zero-shot accuracy on benchmarks like ImageNet-1k, making OpenCLIP a powerful, flexible, and reproducible option for our needs. Additionally, OpenCLIP supports both command-line and Python API interfaces, offering flexibility for different use cases.
