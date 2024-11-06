@@ -88,15 +88,6 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc_per_node 4 -m open_clip_train.main
 
 **Visualization**: Present training metrics such as loss and accuracy over time using line graphs. Include visualizations of attention maps or feature embeddings to demonstrate the model's learning progression. Tools like TensorBoard can be used to provide real-time monitoring and visual insight into these metrics.
 
-## 3. Testing with the Newly Generated Model
-
-**Documentation**: Describe the evaluation methodology, including test datasets, performance metrics, and comparative analyses with baseline models.
-
-- **Evaluation Metrics**: Use metrics like accuracy, precision, recall, and F1-score to evaluate performance.
-- **Comparison with Baseline Models**: Detail how the fine-tuned model compares with pre-existing baseline models.
-
-**Visualization**: Showcase qualitative results by displaying input images alongside the model's predictions. Use confusion matrices and ROC curves to provide quantitative insights into model performance. Additionally, show example queries and their top matches to illustrate the improvements in semantic search capability.
-
 # Appendix A: Hardware Specifications
 
 The fine-tuning workflow was executed using the following hardware setup:
