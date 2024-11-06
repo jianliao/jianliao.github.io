@@ -40,7 +40,7 @@ const HomePage = {
       },
     },
     icons: {
-      shortcut: "/icon.svg",
+      shortcut: "/icon.png",
     },
   },
   title: "Jian Liao",
