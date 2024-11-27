@@ -49,6 +49,7 @@ module.exports = {
             img: {
               marginTop: 0,
               marginBottom: 0,
+              borderRadius: "8px"
             },
             ul: {
               marginTop: 0,
@@ -57,6 +58,10 @@ module.exports = {
               p: {
                 color: theme("colors.slate.600"),
               },
+            },
+            table: {
+              borderRadius: "8px",
+              overflow: "hidden",
             },
             pre: {
               position: "relative",

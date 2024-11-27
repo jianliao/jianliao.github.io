@@ -17,7 +17,7 @@
     "build": "node --experimental-strip-types lib/content.ts && next build",
     "start": "next start",
     "lint": "next lint",
-    "watch": "onchange content/*.mdx public/images -- node --experimental-strip-types generate",
+    "watch": "onchange content/*.mdx public/images -- npm run generate",
     "generate": "node --experimental-strip-types lib/content.ts"
   },
   "dependencies": {
