@@ -8,12 +8,8 @@ export async function generateMetadata(props: {
   const params = await props.params;
   const post = allPosts.find((post) => post.slug === params.slug);
   if (!post) return;
-  const { title, slug, publishedAt: publishedTime } = post;
-  const ogImage = `${
-    process.env.NODE_ENV === "production"
-      ? "https://jianliao.github.io"
-      : "http://localhost:3000"
-  }/og?title=${title}&time=${publishedTime}&slug=${slug}`;
+  const { title, slug, publishedAt: publishedTime, thumbnail } = post;
+  const ogImage = `${thumbnail}`;
   return {
     title,
     description: title,
