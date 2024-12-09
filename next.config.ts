@@ -1,6 +1,7 @@
-/** @type {import('next').NextConfig} */
+import type { NextConfig } from "next";
+import createMDX from "@next/mdx";
 
-const nextConfig = {
+const nextConfig: NextConfig = {
   experimental: {
     mdxRs: true,
   },
@@ -8,7 +9,10 @@ const nextConfig = {
     unoptimized: true,
   },
   output: "export",
-  reactStrictMode: false,
+  pageExtensions: ["ts", "tsx", "mdx"],
+  // reactStrictMode: false,
 };
 
-export default nextConfig;
+const withMDX = createMDX({});
+
+export default withMDX(nextConfig);
