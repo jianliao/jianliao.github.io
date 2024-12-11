@@ -1,10 +1,18 @@
+import Image from 'next/image';
+
+import hero_2 from './hero_2.png';
+import batch_size_vs_time from './batch_size_vs_time.png';
+import num_workers_vs_time from './num_workers_vs_time.png';
+import num_gpu_vs_time from './num_gpu_vs_time.png';
+import speedup from './speedup.png';
+
 ## Introduction
 
 In the previous [blog](https://jianliao.github.io/blog/clip-vit-fine-tune), I covered fine-tuning a CLIP model for Adobe Design UI icons to enhance searchability. Now, I scale up to generate embeddings using multiple GPUs, which presents several new challenges, particularly around optimizing efficiency in multi-GPU setups.
 
 This blog explores these challenges, why they occur, and practical ways to optimize performance using a fine-tuned CLIP model to generate a large number of image vector embeddings. I'll share key insights into the performance gains, trade-offs, and the impact of different configurations.
 
-![Hero Image of the blog](/multi-gpu-embedding/hero_2.png)
+<Image src={hero_2} alt="Hero Image of the blog" />
 
 ### **Getting Started: Setting Up for Parallel Processing**
 
@@ -123,10 +131,12 @@ This code utilizes the [PyTorch Distributed Data Parallel](https://pytorch.org/t
 In this section, we will assume that all these factors are tested with only a single GPU. Once we identify the optimized settings, these configurations will be used to scale up to 4 GPUs to evaluate performance improvements and scalability.
 
 1. **Batch Size**: Trying different batch sizes helps improve GPU performance. Larger sizes reduce processing time until a point. The best batch size found was 1080, which was fastest without running out of memory. Sizes above 1280 had fewer benefits or caused memory issues.
-![Batch Size vs Time](/multi-gpu-embedding/batch_size_vs_time.png)
+
+<Image src={batch_size_vs_time} alt="Batch Size vs Time diagram" />
 
 2. **Number of DataLoader Workers**: Testing num_workers showed that 0 had the best average time. Adding more workers (2, 4, 8) increased variability and provided no clear benefit.
-![DataLoader Workers vs Time](/multi-gpu-embedding/num_workers_vs_time.png)
+
+<Image src={num_workers_vs_time} alt="DataLoader Workers vs Time diagram" />
 
 3. **Pin Memory**: I tried pin_memory on and off but saw no performance difference. When true, it used a little bit more VRAM. See the [When to set pin_memory to true?](https://discuss.pytorch.org/t/when-to-set-pin-memory-to-true/19723) discussion for more details.
 
@@ -138,11 +148,11 @@ In this section, we will assume that all these factors are tested with only a si
 
 The scalability analysis was conducted by comparing the average processing time across different GPU counts, from 1 to 4 GPUs. The findings showed that as the number of GPUs increased, the processing time decreased. However, the reduction in time was not linear due to overheads such as GPU-to-GPU communication and synchronization. The observed time is even less than the ideal time, which would probably be due to the one GPU baseline performance error.
 
-![Number of GPUs vs Time](/multi-gpu-embedding/num_gpu_vs_time.png)
+<Image src={num_gpu_vs_time} alt="Number of GPUs vs Time diagram" />
 
 The speedup chart compared the ideal scenario—where each GPU would perfectly split the workload—with the observed performance. The ideal speedup showed a proportional reduction in time with more GPUs, while the real speedup demonstrated diminishing returns. This difference highlights the impact of practical challenges like synchronization delays and data transfer overheads, which prevent perfect scalability. The observed speedup outperformed the ideal speedup in three and four GPU scenarios, was probably due to the one GPU baseline performance error.
 
-![Speedup Chart](/multi-gpu-embedding/speedup.png)
+<Image src={speedup} alt="Speedup Chart" />
 
 Also referenced Amdahl's Law and Gustafson's Law to understand the theoretical limits of parallelism and its effect on performance scaling in real-world scenarios.
 

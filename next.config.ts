@@ -1,18 +1,43 @@
 import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeCodeTitles from "rehype-code-titles";
+import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import rehypeSlug from "rehype-slug";
 
 const nextConfig: NextConfig = {
-  experimental: {
-    mdxRs: true,
-  },
   images: {
     unoptimized: true,
   },
   output: "export",
   pageExtensions: ["ts", "tsx", "mdx"],
-  // reactStrictMode: false,
 };
 
-const withMDX = createMDX({});
+const withMDX = createMDX({
+  options: {
+    remarkPlugins: [remarkGfm, remarkMath],
+    rehypePlugins: [
+      rehypeSlug,
+      rehypeCodeTitles,
+      [
+        "rehype-pretty-code",
+        {
+          theme: "solarized-light",
+        },
+      ],
+      rehypeKatex,
+      [
+        rehypeAutolinkHeadings,
+        {
+          properties: {
+            className: ["anchor"],
+          },
+        },
+      ],
+    ],
+  },
+});
 
 export default withMDX(nextConfig);

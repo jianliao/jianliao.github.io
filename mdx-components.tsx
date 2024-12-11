@@ -64,10 +64,10 @@ const components = {
       </a>
     );
   },
-  code: ({ children, ...props }: ComponentPropsWithoutRef<"code">) => {
-    const codeHTML = highlight(children as string);
-    return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
-  },
+  // code: ({ children, ...props }: ComponentPropsWithoutRef<"code">) => {
+  //   const codeHTML = highlight(children as string);
+  //   return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
+  // },
   Table: ({ data }: { data: { headers: string[]; rows: string[][] } }) => (
     <table>
       <thead>
