@@ -8,7 +8,7 @@ import speedup from './speedup.png';
 
 ## Introduction
 
-In the previous [blog](https://jianliao.github.io/blog/clip-vit-fine-tune), I covered fine-tuning a CLIP model for Adobe Design UI icons to enhance searchability. Now, I scale up to generate embeddings using multiple GPUs, which presents several new challenges, particularly around optimizing efficiency in multi-GPU setups.
+In the previous [blog](/blog/clip-vit-fine-tune), I covered fine-tuning a CLIP model for Adobe Design UI icons to enhance searchability. Now, I scale up to generate embeddings using multiple GPUs, which presents several new challenges, particularly around optimizing efficiency in multi-GPU setups.
 
 This blog explores these challenges, why they occur, and practical ways to optimize performance using a fine-tuned CLIP model to generate a large number of image vector embeddings. I'll share key insights into the performance gains, trade-offs, and the impact of different configurations.
 
@@ -18,21 +18,21 @@ This blog explores these challenges, why they occur, and practical ways to optim
 
 #### Hardware Configuration:
 
-- **CPU:** [AMD EPYC™ 7282](https://www.amd.com/en/support/downloads/drivers.html/processors/epyc/epyc-7002-series/amd-epyc-7282.html) - 16 Cores, 32 Threads @ 2.8 GHz
+- **CPU:** AMD EPYC™ 7282 - 16 Cores, 32 Threads @ 2.8 GHz
 - **Motherboard:** ASRock Rack ROMED8-2T
 - **Memory:** 128 GB ECC DDR4 @ 3200 MHz
 - **GPU:** 4 x Nvidia RTX 3090 Founders Edition
 
 #### Software Configuration:
 
-- **Python**\@3.12.7
-- **open\_clip\_torch**\@2.29.0
-- **torch**\@2.5.1
-- **Ubuntu**\@24.10
+- **Python\@3.12.7**
+- **open\_clip\_torch\@2.29.0**
+- **torch\@2.5.1**
+- **Ubuntu\@24.10**
 
 ## Line-by-Line Code Walkthrough
 
-```python
+```python showLineNumbers
 import open_clip
 import os
 import signal

@@ -1,6 +1,5 @@
 import React, { ComponentPropsWithoutRef } from "react";
 import Link from "next/link";
-import { highlight } from "sugar-high";
 
 type HeadingProps = ComponentPropsWithoutRef<"h1">;
 type ParagraphProps = ComponentPropsWithoutRef<"p">;
@@ -11,33 +10,47 @@ type BlockquoteProps = ComponentPropsWithoutRef<"blockquote">;
 
 const components = {
   h1: (props: HeadingProps) => (
-    <h1 className="font-medium pt-12 mb-0 fade-in" {...props} />
+    <h1
+      className="text-gray-900 font-extrabold text-3xl mt-12 mb-6 leading-tight"
+      {...props}
+    />
   ),
   h2: (props: HeadingProps) => (
-    <h2 className="text-gray-800 font-medium mt-8 mb-3" {...props} />
+    <h2
+      className="text-gray-900 font-semibold text-2xl mt-10 mb-4 leading-snug"
+      {...props}
+    />
   ),
   h3: (props: HeadingProps) => (
-    <h3 className="text-gray-800 font-medium mt-8 mb-3" {...props} />
+    <h3
+      className="text-gray-900 font-medium text-xl mt-8 mb-3 leading-snug"
+      {...props}
+    />
   ),
-  h4: (props: HeadingProps) => <h4 className="font-medium" {...props} />,
+  h4: (props: HeadingProps) => (
+    <h4 className="text-gray-900 font-medium text-lg mt-6 mb-2" {...props} />
+  ),
   p: (props: ParagraphProps) => (
-    <p className="text-gray-800 leading-snug" {...props} />
+    <p className="text-gray-800 leading-relaxed mb-4" {...props} />
   ),
   ol: (props: ListProps) => (
-    <ol className="text-gray-800 list-decimal pl-5 space-y-2" {...props} />
+    <ol className="list-decimal pl-6 space-y-2 text-gray-800 mb-4" {...props} />
   ),
   ul: (props: ListProps) => (
-    <ul className="text-gray-800 list-disc pl-5 space-y-1" {...props} />
+    <ul className="list-disc pl-6 space-y-2 text-gray-800 mb-4" {...props} />
   ),
-  li: (props: ListItemProps) => <li className="pl-1" {...props} />,
+  li: (props: ListItemProps) => (
+    <li className="pl-1 leading-relaxed" {...props} />
+  ),
   em: (props: ComponentPropsWithoutRef<"em">) => (
-    <em className="font-medium" {...props} />
+    <em className="font-semibold text-gray-900" {...props} />
   ),
   strong: (props: ComponentPropsWithoutRef<"strong">) => (
-    <strong className="font-medium" {...props} />
+    <strong className="font-semibold text-gray-900" {...props} />
   ),
   a: ({ href, children, ...props }: AnchorProps) => {
-    const className = "text-blue-500 hover:text-blue-700";
+    const className =
+      "text-blue-600 hover:text-blue-700 transition-colors";
     if (href?.startsWith("/")) {
       return (
         <Link href={href} className={className} {...props}>
@@ -64,35 +77,41 @@ const components = {
       </a>
     );
   },
-  // code: ({ children, ...props }: ComponentPropsWithoutRef<"code">) => {
-  //   const codeHTML = highlight(children as string);
-  //   return <code dangerouslySetInnerHTML={{ __html: codeHTML }} {...props} />;
-  // },
+  blockquote: (props: BlockquoteProps) => (
+    <blockquote
+      className="border-l-4 border-gray-300 pl-4 italic text-gray-700 my-6"
+      {...props}
+    />
+  ),
   Table: ({ data }: { data: { headers: string[]; rows: string[][] } }) => (
-    <table>
+    <table className="w-full border-collapse border border-gray-200 my-4 text-gray-800 text-sm">
       <thead>
-        <tr>
+        <tr className="bg-gray-100">
           {data.headers.map((header, index) => (
-            <th key={index}>{header}</th>
+            <th
+              key={index}
+              className="border border-gray-200 px-3 py-2 font-semibold text-left"
+            >
+              {header}
+            </th>
           ))}
         </tr>
       </thead>
       <tbody>
         {data.rows.map((row, index) => (
-          <tr key={index}>
+          <tr key={index} className="even:bg-gray-50">
             {row.map((cell, cellIndex) => (
-              <td key={cellIndex}>{cell}</td>
+              <td
+                key={cellIndex}
+                className="border border-gray-200 px-3 py-2 align-top"
+              >
+                {cell}
+              </td>
             ))}
           </tr>
         ))}
       </tbody>
     </table>
-  ),
-  blockquote: (props: BlockquoteProps) => (
-    <blockquote
-      className="ml-[0.075em] border-l-3 border-gray-300 pl-4 text-gray-700"
-      {...props}
-    />
   ),
 };
 

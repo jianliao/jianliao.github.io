@@ -2,11 +2,11 @@
 
 The Adobe design icon team is responsible for designing, supporting, and managing more than 20,000 UI design icons across all Adobe software products, from Adobe Photoshop to Adobe Experience Cloud GenStudio. One of their daily challenges is handling specific UI icon requests from product designers and development teams. Efficiently searching through these 20,000 icons using natural language descriptions or even product screenshots could help avoid duplicate efforts and ensure a unified design and user experience. Additionally, it could inspire icon designers to identify and leverage existing icons that match their envisioned designs.
 
-## Why Fine-Tune a Pre-Trained ViT Model?
+### Why Fine-Tune a Pre-Trained ViT Model?
 
 After testing many existing open-source ViT models, we realized that almost none of them were specifically trained on UI design icons, cursors, or illustrations. While they can capture the visual features of these icons, they often struggle to understand the abstract meanings behind them, particularly when classifying well-known software product logos.
 
-## Objectives
+### Objectives
 
 1. **Accurately Extract Features from UI Design Assets**: Adapt the pre-trained ViT model to effectively recognize and extract features from UI design icons, cursors, and illustrations, ensuring the unique characteristics of these assets are captured.
 
@@ -14,15 +14,15 @@ After testing many existing open-source ViT models, we realized that almost none
 
 3. **Generate High-Quality Embeddings for Semantic Search**: Create high-quality embedding vectors for UI design assets, which can be used for efficient retrieval and classification tasks, focusing on both precision and recall while supporting semantic similarity searches.
 
-# Fine-Tuning Workflow
+## Fine-Tuning Workflow
 
-## 1. Training Data Preparation
+### 1. Training Data Preparation
 
 CLIP (Contrastive Language-Image Pre-training) is trained using a vast dataset of image-text pairs, enabling it to learn associations between visual content and corresponding textual descriptions. Here is an example:
 
 - **Image**: "a4u-ds-desktop-workflow-icons-2.2.0/Cancel\_20.png"
 
-The pre-trained model **openai/clip-vit-large-patch14** uses a patch size of **14x14 pixels**. For fine-tuning, all training images should be resized to **224x224 pixels** to match the model's architecture. This resizing results in a **16 x 16 grid** of patches (since **224 pixels / 14 pixels = 16**), giving a total of **256 patches** (**16 x 16 = 256**). Given the generally simple nature of UI design assets, this configuration is sufficient for capturing all necessary details while maintaining a balance between model complexity, training time, and performance. Additionally, images must be in **RGB mode** (not **RGBA**) to ensure compatibility with the **torchvision.models** module.
+The pre-trained model **openai/clip-vit-large-patch14** uses a patch size of $14\times14$ pixels. For fine-tuning, all training images should be resized to $224\times224$ pixels to match the model's architecture. This resizing results in a $16\times16$ grid of patches (since $224\div14 = 16$), giving a total of $256$ patches($16\times16 = 256$). Given the generally simple nature of UI design assets, this configuration is sufficient for capturing all necessary details while maintaining a balance between model complexity, training time, and performance. Additionally, images must be in **RGB mode** (not **RGBA**) to ensure compatibility with the **torchvision.models** module.
 
 - **Caption**: "An icon of a circle with a diagonal line, representing the action of canceling or stopping a process in the Workflow icon package for Substance 3D, designed for Desktop scale, for Substance 3D Designer, with Spectrum 1."
 
@@ -36,11 +36,11 @@ These contextual elements are crucial as they provide product-specific informati
 
 The training dataset used for this fine-tuning process is available on Hugging Face: [Spectrum Icons Dataset](https://huggingface.co/datasets/JianLiao/spectrum-icons). This dataset includes a collection of UI design icons along with corresponding captions to aid in the training process.
 
-## 2. Model Fine-Tuning with OpenCLIP
+### 2. Model Fine-Tuning with OpenCLIP
 
 We chose OpenCLIP for model fine-tuning because it provides access to models trained on diverse datasets such as LAION-400M, LAION-2B, and DataComp-1B. These models have demonstrated excellent scalability and competitive zero-shot accuracy on benchmarks like ImageNet-1k, making OpenCLIP a powerful, flexible, and reproducible option for our needs. Additionally, OpenCLIP supports both command-line and Python API interfaces, offering flexibility for different use cases.
 
-### Command Used for Fine-Tuning
+## Command Used for Fine-Tuning
 
 ```bash
 CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc_per_node 4 -m open_clip_train.main \
@@ -85,7 +85,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc_per_node 4 -m open_clip_train.main
 
 **Visualization**: Present training metrics such as loss and accuracy over time using line graphs. Include visualizations of attention maps or feature embeddings to demonstrate the model's learning progression. Tools like TensorBoard can be used to provide real-time monitoring and visual insight into these metrics.
 
-# Appendix A: Hardware Specifications
+## Appendix A: Hardware Specifications
 
 The fine-tuning workflow was executed using the following hardware setup:
 

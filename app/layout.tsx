@@ -4,6 +4,9 @@ import "katex/dist/katex.min.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import Link from "next/link";
+import { FaGithub, FaHome, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { SiHuggingface } from "react-icons/si";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://jianliao.github.io"),
@@ -61,7 +64,7 @@ export default function RootLayout({
         <ThemeProvider enableSystem={true} attribute="class">
           <div className="min-h-screen flex flex-col justify-between pt-0 md:pt-8 p-8 bg-white text-gray-900">
             {/* <Header /> */}
-            <main className="max-w-[60ch] mx-auto w-full space-y-6">
+            <main className="max-w-4xl mx-auto w-full space-y-6">
               {children}
             </main>
             <Footer />
@@ -74,25 +77,61 @@ export default function RootLayout({
 
 function Footer() {
   const links = [
-    { label: "@jianliao", href: "https://x.com/jianliao" },
-    { label: "github", href: "https://github.com/jianliao" },
-    { label: "linkedin", href: "https://www.linkedin.com/in/jianliao" },
-    { label: "huggingface", href: "https://huggingface.co/jianliao" },
+    {
+      label: "home",
+      href: "/",
+      icon: <FaHome className="size-5" />,
+      internal: true,
+    },
+    {
+      label: "@jianliao",
+      href: "https://x.com/jianliao",
+      icon: <FaTwitter className="size-5" />,
+      internal: false,
+    },
+    {
+      label: "github",
+      href: "https://github.com/jianliao",
+      icon: <FaGithub className="size-5" />,
+      internal: false,
+    },
+    {
+      label: "huggingface",
+      href: "https://huggingface.co/jianliao",
+      icon: <SiHuggingface className="size-5" />,
+      internal: false,
+    },
+    {
+      label: "linkedin",
+      href: "https://www.linkedin.com/in/jianliao",
+      icon: <FaLinkedin className="size-5" />,
+      internal: false,
+    },
   ];
+
   return (
-    <footer className="mt-12 text-center">
-      <div className="flext justify-center space-x-4 tracking-tight">
-        {links.map((link) => (
-          <a
-            key={link.label}
-            href={link.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-400 hover:text-blue-500 transition-colors duration-200"
-          >
-            {link.label}
-          </a>
-        ))}
+    <footer className="mt-12">
+      <div className="flex justify-between items-center max-w-4xl mx-auto w-full tracking-tight">
+        <span className="text-sm text-gray-500">
+          © {new Date().getFullYear()} Jian Liao. All rights reserved.
+        </span>
+        <div className="flex space-x-4">
+          {links.map((link) => (
+            <Link
+              key={link.label}
+              href={link.href}
+              title={link.label}
+              className="text-gray-400 hover:text-blue-500 transition-colors duration-200"
+              aria-label={`Link to my ${link.label}`}
+              {...(!link.internal && {
+                target: "_blank",
+                rel: "noopener noreferrer",
+              })}
+            >
+              {link.icon}
+            </Link>
+          ))}
+        </div>
       </div>
     </footer>
   );
