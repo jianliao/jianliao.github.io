@@ -7,6 +7,7 @@ import { ThemeProvider } from "next-themes";
 import Link from "next/link";
 import { FaGithub, FaHome, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { SiHuggingface } from "react-icons/si";
+import ThemeSwitcher from "./theme-switcher";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://jianliao.github.io"),
@@ -62,9 +63,9 @@ export default function RootLayout({
     >
       <body className="antialiased tracking-tight">
         <ThemeProvider enableSystem={true} attribute="class">
-          <div className="min-h-screen flex flex-col justify-between pt-0 md:pt-8 p-8 bg-white text-gray-900">
-            {/* <Header /> */}
-            <main className="max-w-4xl mx-auto w-full space-y-6">
+          <div className="min-h-screen flex flex-col bg-white text-gray-900 pl-8 pr-8 pb-8">
+            <Header />
+            <main className="flex-grow max-w-4xl mx-auto w-full space-y-6">
               {children}
             </main>
             <Footer />
@@ -73,6 +74,14 @@ export default function RootLayout({
       </body>
     </html>
   );
+}
+
+function Header() {
+  return (
+    <header className="flex justify-end p-4">
+      <ThemeSwitcher />
+    </header>
+  )
 }
 
 function Footer() {
