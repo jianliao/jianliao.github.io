@@ -26,9 +26,9 @@
   },
   "include": [
     "next-env.d.ts",
+    "**/*.mdx",
     "**/*.ts",
     "**/*.tsx",
-    ".content/generated.json",
     ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]

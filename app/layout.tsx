@@ -58,12 +58,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      suppressHydrationWarning={true}
+      suppressHydrationWarning
       className={`${inter.className}`}
     >
       <body className="antialiased tracking-tight">
         <ThemeProvider enableSystem={true} attribute="class">
-          <div className="min-h-screen flex flex-col bg-white text-gray-900 pl-8 pr-8 pb-8">
+          <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 pl-8 pr-8 pb-8">
             <Header />
             <main className="flex-grow max-w-4xl mx-auto w-full space-y-6">
               {children}

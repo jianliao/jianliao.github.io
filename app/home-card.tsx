@@ -14,8 +14,8 @@ export default function HomeCard() {
           priority
         />
         <div className="flex flex-col w-96 space-y-4">
-          <h1 className="font-bold text-2xl tracking-tight">Jian Liao</h1>
-          <p>
+          <h1 className="font-bold text-2xl tracking-tight text-gray-900 dark:text-gray-100">Jian Liao</h1>
+          <p className="text-gray-800 dark:text-gray-200">
             Passionate full-stack developer, DevOps enthusiast, and GenAI
             explorer based in sunny California.
           </p>
