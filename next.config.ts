@@ -32,7 +32,7 @@ const withMDX = createMDX({
         rehypeAutolinkHeadings,
         {
           properties: {
-            className: ["anchor"],
+            className: ["section-header"],
           },
         },
       ],

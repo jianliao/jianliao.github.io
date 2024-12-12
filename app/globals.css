@@ -118,3 +118,32 @@ code[data-line-numbers-max-digits="4"] > [data-line]::before {
 img {
   border-radius: 0.5rem;
 }
+
+/* Apply an auto-hidden anchor to the blog section headers */
+.section-header {
+  position: absolute; /* absolute */
+  visibility: hidden; /* invisible */
+  text-decoration: none; /* no-underline */
+  margin-left: -1em; /* ml-[-1em] */
+  padding-right: 0.5rem; /* pr-2 */
+  width: 100%; /* w-full */
+  max-width: 700px; /* max-w-[700px] */
+  cursor: pointer; /* cursor-pointer */
+}
+
+.section-header:hover {
+  visibility: visible; /* hover:visible */
+}
+
+.section-header:after {
+  color: #94a3b8; /* text-slate-400 */
+  content: "#"; /* after:content-['#'] */
+}
+
+html.dark .section-header:after {
+  color: #e2e8f0; /* dark:text-slate-200 */
+}
+
+*:hover > .section-header {
+  visibility: visible;
+}
