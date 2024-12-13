@@ -1,6 +1,8 @@
 {
   "name": "jianliao.github.io",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "Source code for Jian Liao's personal blog.",
+  "main": "index.js",
   "private": true,
   "author": "Jian Liao <jian.liao@gmail.com>",
   "license": "MIT",
