@@ -64,7 +64,6 @@ export default function RootLayout({
       <body className="antialiased tracking-tight">
         <ThemeProvider enableSystem={true} attribute="data-theme">
           <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 pl-8 pr-8 pb-8">
-            <Header />
             <main className="grow max-w-4xl mx-auto w-full space-y-6 p-8">
               {children}
             </main>
@@ -74,14 +73,6 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
-
-function Header() {
-  return (
-    <header className="flex justify-end p-4">
-      <ThemeSwitcher />
-    </header>
-  )
 }
 
 function Footer() {
@@ -124,7 +115,7 @@ function Footer() {
         <span className="text-sm text-gray-500">
           © {new Date().getFullYear()} Jian Liao. All rights reserved.
         </span>
-        <div className="flex space-x-4">
+        <div className="flex space-x-4 items-center">
           {links.map((link) => (
             <Link
               key={link.label}
@@ -140,6 +131,7 @@ function Footer() {
               {link.icon}
             </Link>
           ))}
+          <ThemeSwitcher />
         </div>
       </div>
     </footer>

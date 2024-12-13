@@ -20,9 +20,9 @@ const ThemeSwitcher: NextPage = () => {
       type="button"
       aria-label="Theme Switcher"
       onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-      className="flex p-2 items-center outline-none rounded-full text-slate-600 bg-slate-200 dark:bg-slate-600 hover:bg-slate-600 hover:text-white dark:text-white dark:hover:bg-slate-200 dark:hover:text-black"
+      className="flex items-center outline-none rounded-full text-slate-600 hover:bg-slate-600 hover:text-white dark:text-white dark:hover:bg-slate-200 dark:hover:text-black"
     >
-      <IconToUse className="size-6" />
+      <IconToUse className="size-5" />
     </button>
   );
 };
