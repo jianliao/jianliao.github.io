@@ -18,17 +18,24 @@ export const metadata: Metadata = {
   description:
     "Passionate full-stack developer, DevOps enthusiast, and GenAI explorer based in sunny California.",
   openGraph: {
-    title: "Jian Liao",
+    title: "Jian Liao's Blog",
     description:
       "Passionate full-stack developer, DevOps enthusiast, and GenAI explorer based in sunny California.",
     url: "https://jianliao.github.io",
-    siteName: "Jian Liao",
+    siteName: "Jian Liao's Blog",
     locale: "en-US",
     type: "website",
+    images:[
+      {
+        url: "/images/avatar.png",
+        alt: "Finetune CLIP model",
+      }
+    ]
   },
   twitter: {
     title: "Jian Liao",
     card: "summary_large_image",
+    images: ["/images/avatar.png"]
   },
   robots: {
     index: true,
