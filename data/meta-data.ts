@@ -45,7 +45,6 @@ const HomePage = {
   },
   title: "Jian Liao",
   description: "Software engineer",
-  motto: "Software engineer",
   url: "https://jianliao.github.io",
   avatar_url: "/images/avatar.png",
 };
