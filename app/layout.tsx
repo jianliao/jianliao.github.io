@@ -8,6 +8,7 @@ import Link from "next/link";
 import { FaGithub, FaHome, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { SiHuggingface } from "react-icons/si";
 import ThemeSwitcher from "./theme-switcher";
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://jianliao.github.io"),
@@ -77,6 +78,7 @@ export default function RootLayout({
             <Footer />
           </div>
         </ThemeProvider>
+        <GoogleAnalytics gaId="G-JQ1ZDK8FZH" />
       </body>
     </html>
   );
