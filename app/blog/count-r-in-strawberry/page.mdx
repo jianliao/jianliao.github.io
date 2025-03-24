@@ -1,0 +1,157 @@
+import BlogHeader from '../blog-title';
+
+export const metadata = {
+  title: "Do Language Models Count Letter R's? - The Hidden Cost of Tokenization and Preprocessing",
+  description: "This article dissects how LLMs struggle to count letter R's in 'strawberry' and why CLIP misclassifies images — tracing both failures to hidden input transformations: tokenization shreds words into subword puzzles, while image preprocessing distorts pixels into alien representations.",
+  openGraph: {
+    title: "Do Language Models Count Letter R's? - The Hidden Cost of Tokenization and Preprocessing",
+    description:
+      "This article dissects how LLMs struggle to count letter R's in 'strawberry' and why CLIP misclassifies images — tracing both failures to hidden input transformations: tokenization shreds words into subword puzzles, while image preprocessing distorts pixels into alien representations.",
+    url: "/blog/count-r-in-strawberry",
+    images:[
+      {
+        url: "/images/count-r-in-strawberry/count_rs.webp",
+        alt: "Do Language Models C Letter R's? - The Hidden Cost of Tokenization and Preprocessing",
+      }
+    ]
+  },
+  twitter: {
+    title: "Do Language Models C Letter R's? - The Hidden Cost of Tokenization and Preprocessing",
+    images: ["/images/count-r-in-strawberry/count_rs.webp"]
+  },
+};
+
+<BlogHeader title="Do Language Models Count Letter R's?" subtitle="The Hidden Cost of Tokenization and Preprocessing" postDate="2025-03-28" />
+
+Every time a new large language model drops — be it GPT-4.5, Claude 3.7, or a 72B-parameter open-source beast — the same tired ritual floods tech forums. Someone inevitably posts: "Hey [Model], how many R's are in 'strawberry'?", followed by mockery when the answer fails. But here's the uncomfortable truth: this test measures nothing about intelligence. When you type "strawberry", the model doesn’t see S-T-R-A-W-B-E-R-R-Y. It sees something else entirely — a fragmented version of your text, reassembled through rules no user ever sees.
+
+The result? A model might claim there are two R’s, or one, or even none. But before declaring it "dumb", consider this: the error isn’t in the model’s logic, but in a silent translation layer operating behind the scenes. The real question isn’t why models fail this test — it’s why we keep administering a benchmark that misunderstands their most basic design constraint.
+
+What exactly happens to your text before the model "sees" it? And why does this invisible process sabotage simple tasks like letter counting? Let’s dissect the unsung culprit: the tokenizer.
+
+![count-r-in-strawberry](/images/count-r-in-strawberry/count_rs.webp)
+
+## What is a Tokenizer?
+
+A tokenizer is the first and most opinionated gatekeeper of your LLM. Think of it as a translator that converts human-readable text into a secret code the model understands — except this translator has strict rules:
+
+1. It fragments text into small pieces called tokens by frequency.
+   * Input: "Do Language Models Count Letter R's?"
+   * Tokenized: ["Do", " Language", " Models", " Count", " Letter", " R's", "?"]
+
+2. It forgets original characters: Once text is tokenized, letters like R become prisoners inside token blocks. The model sees "Letter", not L-e-t-t-e-r.
+
+3. It uses a dictionary to map tokens to their integer IDs.
+    Token to ID mapping:
+    * "Do" -> 1
+    * " Language" -> 2
+    * " Models" -> 3
+    * " Count" -> 4
+    * " Letter" -> 5
+    * " R's" -> 6
+    * "?" -> 7
+
+## Decoder-Only LLM's Minimalist Pipeline
+
+```uml
+[Input] -> [Tokenizer] -> [Core Processing] -> [Tokenizer] -> [Output]
+```
+
+Let's try sentence "Count R's in 'strawberry'?":
+
+1. Input -> Tokenizer
+
+You type "Count R's in 'strawberry'?". Tokenizer breaks it down into: ["Count", " R's", " in", " 'st", "raw", "berry", "'?"], then map each token to its ID and feed it to the core processing.
+
+2. Core Processing
+
+The core processing is a black box that takes the number array input and predicts next number using statistical patterns from training data. Outputs toeken sequence: ["65", "72", "23"].
+
+3. Tokenizer (The Illusion of Understanding)
+
+The tokenizer takes the predicted number sequence and converts it back to human-readable text. Outputs: "Answer: 2".
+
+## The Brutal Reality
+The model never truly "saw" the complete word — it guessed based on token relationships.
+
+| Stage | What you think happens | What actually happens |
+|-------|------------------------|----------------------|
+| Input | Model sees "strawberry"| Model sees straw + berry |
+| Core Processing | Logical counting | Pattern matching: berry → often paired with "2 R's" in training data |
+| Output | Precise answer | Best probabilistic and statistical guess |
+
+
+## CLIP’s Hidden Preprocessor
+
+Just as LLMs don't see raw text, vision models like CLIP never truly "see" your images. Let's expose the three-stage distortion pipeline that corrupts visual inputs:
+
+```uml
+[Your Image] → [CLIP Preprocessor] → [Model "Sees"] → [Output]  
+```
+
+CLIP promises a unified way to process images — but beneath its standardized 224x224 input lies a minefield of hidden distortions. Let’s dissect two identical icons processed through CLIP’s pipeline, revealing why "the same image" becomes unrecognizably different to the model.
+
+Case Study: Two Displays, Two Realities
+
+**Image 1: Old Apple Cinema Display (2K)**
+
+* Source: 64 x 85 pixel icon (low DPI, legacy monitor)
+
+* Preprocessing Steps:
+
+  1. Resize to 224 x 224 (CLIP’s forced aspect ratio)
+
+  2. Apply bilinear interpolation → pixelation artifacts
+
+  3. Normalize RGB values → contrast exaggeration
+
+| Original (64 x 85) | After Preprocessed (224 x 224) |
+|------------------|------------------------------|
+| ![Original Icon](/images/count-r-in-strawberry/image.png) | ![Preprocessed Icon](/images/count-r-in-strawberry/output_image_low.png) |
+
+**Note:** _Jagged edges dominate the processed image. The original circular now resembles a hexagon._
+
+**Image 2: Modern MacBook Pro (5K)**
+
+* Source: 104 x 98 pixel icon (high DPI, modern monitor)
+
+* Preprocessing Steps:
+
+  1. Resize to 224 x 224 → minimal distortion (native resolution closer to target)
+
+  2. Same interpolation → smooth edges
+
+  3. Normalization preserves shapes
+
+| Original (104 x 98) | After Preprocessed (224 x 224) |
+|------------------|------------------------------|
+| ![Original Icon](/images/count-r-in-strawberry/image_high.png) | ![Preprocessed Icon](/images/count-r-in-strawberry/output_image_high.png) |
+
+**Note:** _Curves remain intact — the model sees a faithful representation._
+
+## Key Takeaways: The Input Pipeline Paradox
+
+* Reality ≠ Model Input
+
+* Text models see tokenized fragments (e.g., straw+berry), not raw characters
+
+* Vision models process normalized/resized images (e.g., 224px artifacts), not original pixels
+
+
+**The Core Lesson**
+
+  * A model’s competence depends as much on its input pipeline as its architecture. What we call "AI errors" are often preprocessing side effects.
+
+## References
+
+[Tiktokenizer](https://tiktokenizer.vercel.app/)
+
+An interactive tool to visualize how different tokenizers fragment text
+
+[Contrastive Language-Image Pre-training (CLIP) - Data Preprocessing](https://en.wikipedia.org/wiki/Contrastive_Language-Image_Pre-training#Data_preprocessing)
+
+Details on CLIP's standardized image preprocessing pipeline, including resizing, normalization, and its impact on input fidelity.
+
+[Deep Dive into LLMs like ChatGPT](https://youtu.be/7xTGNNLPyMI?t=7272) by Andrej Karpathy
+
+This is a general audience deep dive into the Large Language Model (LLM) AI technology that powers ChatGPT and related products.

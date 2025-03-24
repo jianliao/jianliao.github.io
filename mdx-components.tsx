@@ -7,6 +7,7 @@ type ListProps = ComponentPropsWithoutRef<"ul">;
 type ListItemProps = ComponentPropsWithoutRef<"li">;
 type AnchorProps = ComponentPropsWithoutRef<"a">;
 type BlockquoteProps = ComponentPropsWithoutRef<"blockquote">;
+type TableProps = ComponentPropsWithoutRef<"table">;
 
 const components = {
   h1: (props: HeadingProps) => (
@@ -83,35 +84,25 @@ const components = {
       {...props}
     />
   ),
-  Table: ({ data }: { data: { headers: string[]; rows: string[][] } }) => (
-    <table className="w-full border-collapse border border-gray-200 dark:border-gray-700 my-4 text-gray-800 dark:text-gray-200 text-sm">
-      <thead>
-        <tr className="bg-gray-100 dark:bg-gray-800">
-          {data.headers.map((header, index) => (
-            <th
-              key={index}
-              className="border border-gray-200 dark:border-gray-700 px-3 py-2 font-semibold text-left"
-            >
-              {header}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {data.rows.map((row, index) => (
-          <tr key={index} className="even:bg-gray-50 dark:even:bg-gray-700">
-            {row.map((cell, cellIndex) => (
-              <td
-                key={cellIndex}
-                className="border border-gray-200 dark:border-gray-700 px-3 py-2 align-top"
-              >
-                {cell}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+  table: (props: TableProps) => (
+    <div className="w-full my-4">
+      <div role="table" className="min-w-full bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-200 text-sm rounded-lg overflow-hidden border border-gray-100 dark:border-gray-800" {...props} />
+    </div>
+  ),
+  thead: (props: ComponentPropsWithoutRef<"thead">) => (
+    <div role="rowgroup" className="contents" {...props} />
+  ),
+  tbody: (props: ComponentPropsWithoutRef<"tbody">) => (
+    <div role="rowgroup" className="contents" {...props} />
+  ),
+  tr: (props: ComponentPropsWithoutRef<"tr">) => (
+    <div role="row" className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(0, 1fr))' }} {...props} />
+  ),
+  th: (props: ComponentPropsWithoutRef<"th">) => (
+    <div role="columnheader" className="p-6 font-semibold break-words bg-gray-50 dark:bg-gray-800/50 border-b border-r border-gray-100 dark:border-gray-800 last:border-r-0" {...props} />
+  ),
+  td: (props: ComponentPropsWithoutRef<"td">) => (
+    <div role="cell" className="p-6 break-words bg-white dark:bg-gray-900 border-b border-r border-gray-100 dark:border-gray-800 last:border-r-0" {...props} />
   ),
 };
 
