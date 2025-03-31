@@ -1,0 +1,262 @@
+import BlogHeader from '../BlogTitle';
+import FeedbackFooter from '../FeedbackFooter';
+
+export const metadata = {
+  title: "Demystifying LLM MCP Servers: Debugging stdio Transports Like a Pro",
+  description: "Debugging LLM MCP servers over stdio is tricky — especially when your logs break the protocol. Here’s how I tackled it with custom logging, Node remote debugging, and hands-on tricks in Cursor.",
+  openGraph: {
+    title: "Demystifying LLM MCP Servers: Debugging stdio Transports Like a Pro",
+    description:
+      "Debugging LLM MCP servers over stdio is tricky — especially when your logs break the protocol. Here’s how I tackled it with custom logging, Node remote debugging, and hands-on tricks in Cursor.",
+    url: "/blog/debug-mcp-stdio-transport",
+    images:[
+      {
+        url: "/images/debug-mcp-stdio-transport/mcp-stdin.png",
+        alt: "Demystifying LLM MCP Servers: Debugging stdio Transports Like a Pro",
+      }
+    ]
+  },
+  twitter: {
+    title: "Demystifying LLM MCP Servers: Debugging stdio Transports Like a Pro",
+    images: ["/images/debug-mcp-stdio-transport/mcp-stdin.png"]
+  },
+};
+
+<BlogHeader title="Demystifying LLM MCP Servers: Debugging stdio Transports Like a Pro"  postDate="2025-04-02" />
+
+Large Language Models (LLMs) are increasingly being embedded into real-world developer tools, from code editors to chat-based agents. But to truly make them useful, they need access to **external context** — like source code, documentation, databases, or internal APIs. This is exactly the problem that the **[Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction)** aims to solve.
+
+In this post, I’ll share my experience building and debugging a `stdio`-based Nodejs MCP server. If you're trying to integrate LLMs with real data and need a smooth way to test your tools, I hope this post saves you some headaches.
+
+## MCP Architecture Overview
+
+At a high level, the Model Context Protocol (MCP) enables external tools or data sources to communicate with an LLM through a standardized protocol. In the typical setup, a **host application**—such as an IDE, terminal assistant, or AI-powered agent—acts as the MCP client. It connects to one or more **MCP servers**, each of which exposes access to a specific tool, dataset, or external service.
+
+Here’s a simplified view of how this works:
+
+![MCP Architecture Overview](/images/debug-mcp-stdio-transport/mcp-arch.png)
+
+The route in bold is the `stdio` transport that connects the MCP client and server to a local Nodejs CLI tool.
+
+### 🛠️ Two Transport Options: stdio vs SSE
+
+The MCP spec supports two types of communication between the client (host) and server:
+
+#### 1. `stdio` Transport
+- The MCP client launches the server as a **subprocess**, piping `stdin` and `stdout`.
+- All communication uses **JSON-RPC** over these standard streams.
+- Ideal for **local-only tools** that need fast integration with minimal network setup.
+- Example: integrating local file system tools or code generation tools into an IDE.
+
+#### 2. `SSE` (Server-Sent Events) Transport
+- The MCP server is launched and managed **independently**, often as a long-running process.
+- Communication happens over HTTP using **SSE for event streaming**.
+- Suitable for tools that are:
+  - ⚙️ Intensive Computing
+  - 🤝 Shared across machines
+  - 🌐 Cloud-hosted or externally accessible
+- Easier to debug due to separation of logs and communication channels.
+
+### Why We Focus on `stdio` Transport in This Post
+
+While both transport types are supported, this post is primarily about developing and debugging **`stdio`-based MCP servers**. This is the default and most lightweight option used by tools like [Cursor](https://cursor.com), and it's often where developers start when building their first integration.
+
+## `stdio`-based MCP Servers
+
+Building an MCP server using the `stdio` transport can feel deceptively simple—until you try to debug it.
+
+Unlike traditional HTTP servers, `stdio`-based MCP servers run as subprocesses and communicate exclusively over standard input/output using the JSON-RPC protocol. This design offers performance and simplicity, but it comes with several development and debugging challenges:
+
+### 🧩 Challenge 1: The Subprocess Trap
+
+When you launch an MCP server via `stdio`, the MCP client (e.g., Cursor) typically spawns it as a **child process**. In Node.js, this means:
+
+- You can’t easily attach your IDE debugger to the subprocess.
+- Capturing logs from the child process is non-trivial and often requires output redirection.
+- You lose visibility into runtime behavior unless you set up a manual logging mechanism.
+
+#### Step-by-step Debugging Workflow
+
+1. **Modify the MCP client code to launch your server with debugging enabled**:
+
+```js
+const transport = new StdioClientTransport({
+  command: 'node',
+  args: ['--inspect', 'dist/index.js'],
+  timeout: 5 * 60 * 1000,
+});
+```
+
+This starts your index.js server in debug mode, listening on a random available port (e.g. localhost:9229).
+
+2. **Open Chrome DevTools for Node**:
+
+Navigate to chrome://inspect/#devices in your browser.
+
+3. **Click the "inspect" link**:
+
+Once Chrome detects your Node process, click the inspect link to open a dedicated DevTools session.
+
+4. **Set breakpoints and debug**:
+
+You can now set breakpoints in your code and debug as usual.
+
+5. **Use `--inspect-brk`**:
+
+If you need to start the server in debug mode and immediately pause execution, use `--inspect-brk` instead of `--inspect`. This will break on the first line of your script.
+
+### 💥 Challenge 2: `console.log()` Breaks the Protocol
+
+Since the communication between client and server flows entirely through `stdin` and `stdout`, **any text output to `stdout` must conform to JSON-RPC**. That means:
+
+- Using `console.log()` or `process.stdout.write()` for debugging will corrupt the protocol.
+- A single stray log message can crash the session or result in unreadable JSON.
+
+This makes traditional debugging techniques dangerous and counterproductive.
+
+In an MCP `stdio`-based server, anything you write to `stdout` must be a valid JSON-RPC message. That means standard logging methods like `console.log()` or `console.error()` can **break the protocol** if used carelessly.
+
+To handle this safely, I implemented a custom logging utility that adapts based on whether the tool is running in **CLI mode** or **MCP mode**.
+
+#### Strategy
+
+- In **CLI mode**, logs can go to the console freely using `console.log`, `console.warn`, etc.
+- In **MCP mode**, logs should:
+  - Store internal debug logs locally (e.g. in a file)
+  - Only output errors or responses using the expected **JSON-RPC** format defined by the MCP spec
+
+Here’s a minimal example of how I implemented this dual-mode logger:
+
+```ts
+import chalk from 'chalk';
+
+export class McpLogger {
+  private messages: string[] = [];
+  private isMcpMode: boolean;
+
+  constructor(isMcpMode: boolean) {
+    this.isMcpMode = isMcpMode;
+  }
+
+  log(...messages: any[]): void {
+    const message = messages.join(' ');
+    if (this.isMcpMode) {
+      this.messages.push(message); // Store for later output via JSON-RPC
+    } else {
+      console.log(message); // CLI mode logs to stdout
+    }
+  }
+
+  warn(message: string): void {
+    if (this.isMcpMode) {
+      this.messages.push(message);
+    } else {
+      console.warn(chalk.yellow(message));
+    }
+  }
+
+  error(message: string): McpResponse {
+    if (this.isMcpMode) {
+      return {
+        content: [{ type: 'text', text: message }],
+        isError: true
+      };
+    } else {
+      console.error(chalk.red(message));
+      process.exit(1);
+    }
+  }
+
+  getContent(): McpResponse {
+    return {
+      content: [{
+        type: 'text',
+        text: this.messages.join('\n')
+      }]
+    };
+  }
+
+  // Optional helpers for formatting CLI output
+  addSection(title: string) {
+    this.log(title);
+  }
+
+  addSeparator() {
+    this.log('----------------------------------------');
+  }
+
+  addCommand(command: string, description?: string) {
+    this.log(chalk.cyan(command));
+    if (description) this.log(`    ${description}`);
+  }
+
+  addSuccess(message: string) {
+    this.log(chalk.green('✔'), message);
+  }
+}
+```
+#### **Design Your Messages Like Prompts**
+
+When logging in MCP mode, you're not just outputting debug info — you’re communicating with an LLM. Think of every log, warn, or error message as part of the LLM's conversational context.
+
+Avoid generic or raw messages like "invalid" or "error occurred".
+
+Instead, guide the LLM with helpful cues:
+
+* "Project path must be absolute directory"
+
+* "Cannot create project: no path was provided. Please specify a valid directory."
+
+These subtle hints help the LLM provide better, more actionable retry or feedback to the end user.
+
+### 🔀 Challenge 3: CLI vs MCP Mode Compatibility
+
+If you're building a tool that has both a **CLI interface** and a **MCP server mode**, you’ll need a clean way to:
+
+- Detect when the tool is running as an MCP server vs regular CLI.
+- Avoid printing normal CLI output while in MCP mode.
+- Maintain clear separation between user-facing messages and machine-readable output.
+
+If you're building a tool that needs to work both as a **traditional CLI** (`npx toolname [params]`) and as an **MCP server**, you'll need to manage two very different interaction styles in the same codebase.
+
+#### Best Practices for Dual-Mode CLI + MCP Server
+
+1. Use a single entry point  
+   Keep only one `index.js` or `main.ts` as the launcher. Avoid multiple files for different modes. This makes packaging and execution (especially with `npx`) easier to maintain.
+
+2. Add a mode flag (e.g. `--mcp`)  
+   Use a CLI argument or environment variable to distinguish how the tool should behave:
+
+   ```bash
+   # CLI mode
+   npx create-something@latest ./my-app
+
+   # MCP mode
+   npx create-something@latest --mcp
+   ```
+
+3. Separate concerns with clear architecture
+   Split your code into three layers:
+
+   CLI interface (e.g. using commander): parses user input and logs friendly messages.
+
+   MCP server: implements McpServer logic and JSON-RPC handling.
+
+   Core business logic: all real logic should live here, and both CLI and MCP simply delegate to it.
+
+   ```bash
+   src
+    ├── cli.ts         ← CLI entry using commander
+    ├── mcp-server.ts  ← MCP entry using @modelcontextprotocol/sdk
+    └── core.ts        ← share core business logic
+   ```
+
+## Case Study: create-swc-vite-react-app
+
+Please check out the [create-swc-vite-react-app](https://github.com/jianliao/create-swc-vite-react-app) repository for a complete example of an MCP server that supports both CLI and MCP modes.
+
+## Conclusion
+
+Debugging MCP servers over `stdio` can be tricky, but with the right tools and strategies, you can build robust, user-friendly tools that integrate seamlessly with LLMs.
+
+<FeedbackFooter />
