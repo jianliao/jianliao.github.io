@@ -17,11 +17,11 @@ export const metadata: Metadata = {
     template: `%s | Jian Liao's Blog`,
   },
   description:
-    "Passionate full-stack developer, DevOps enthusiast, and GenAI explorer based in sunny California.",
+    "Passionate full-stack AI developer, DevOps enthusiast, and GenAI explorer based in sunny California.",
   openGraph: {
     title: "Jian Liao's Blog",
     description:
-      "Passionate full-stack developer, DevOps enthusiast, and GenAI explorer based in sunny California.",
+      "Passionate full-stack AI developer, DevOps enthusiast, and GenAI explorer based in sunny California.",
     url: "https://jianliao.github.io",
     siteName: "Jian Liao's Blog",
     locale: "en-US",

@@ -1,0 +1,109 @@
+import BlogHeader from '../BlogTitle';
+import FeedbackFooter from '../FeedbackFooter';
+import VideoPlayer from '../../components/VideoPlayer';
+import workflow from './workflow-diagram.png';
+import Image from 'next/image';
+
+export const metadata = {
+  title: "Automating Accessibility with AI in Spectrum Design",
+  description:
+    "How I used GPT-4o to automatically generate ALT text for Spectrum documentation images—integrating Figma, GitHub, and CMS workflows to make accessibility scalable by design.",
+  openGraph: {
+    title: "Automating Accessibility with AI in Spectrum Design",
+    description:
+      "From Figma design exports to GitHub-managed assets and CMS integration, this AI-powered workflow ensures every image in Spectrum Documentation meets WCAG 2.1 accessibility standards automatically.",
+    url: "/blog/ai-alt-text-generator",
+    images: [
+      {
+        url: "/images/ai-alt-text-generator/accessibility.png",
+        alt: "AI Alt Text Generator Workflow Diagram",
+      },
+    ],
+  },
+  twitter: {
+    title: "Automating Accessibility with AI in Spectrum Design",
+    images: ["/images/ai-alt-text-generator/accessibility.png"],
+  },
+};
+
+<BlogHeader title="Automating Accessibility with AI in Spectrum Design" postDate="2025-10-18" />
+
+## Introduction
+
+Accessibility has always been a core principle of the Spectrum design system.  
+As Spectrum 2 continues to evolve, ensuring that every image meets the **WCAG 2.1 accessibility standard** has become a growing challenge.
+
+In this post, I’ll share how we built an **AI-powered workflow** that automatically generates **ALT text** for documentation images — seamlessly integrating **Figma**, **GitHub**, **GPT-4o**, and **CMS** systems to make accessibility scalable and sustainable.
+
+---
+
+## Watch the demo(2:57)
+
+Below is a short video walkthrough of the workflow — from design export to the final accessible webpage.
+
+<VideoPlayer
+  src="/videos/ai-alt-text-generator/spectrum-ai-alt-text-demo.mp4"
+  poster="/images/ai-alt-text-generator/heroimage.png"
+  captions={[
+    { src: "/videos/ai-alt-text-generator/caption.vtt", srcLang: "en", label: "English", default: true }
+  ]}
+  title="AI-powered ALT text workflow demo video"
+/>
+
+## The challenge
+
+- Each documentation page in Spectrum contains multiple images.  
+  To ensure a high accessibility standard (WCAG 2.1), **every image must have an ALT text**.  
+
+- Designers and content strategists have been **manually maintaining** these images and captions.  
+  This process isn’t scalable — it’s **hard to keep consistent, quickly becomes outdated**, and often gets **ignored** during frequent content updates.
+
+In practice, hundreds of images across multiple Spectrum sites require continuous updates whenever design or content changes occur. Maintaining accessibility manually under these conditions simply doesn’t scale.
+
+## The vision
+
+> “What if accessibility could be built into the content pipeline itself — not added at the end?”
+
+Our goal was to make accessibility a **default system behavior**, not a manual task.  
+Using **GPT-4o Multimodal Model**, we wanted every image checked into GitHub to be automatically captioned and stored with its metadata in the CMS — ready to be used in Spectrum documentation builds.
+
+The workflow needed to:
+1. Integrate naturally with existing Spectrum content pipelines.  
+2. Require **zero extra effort** from designers or authors.  
+3. Guarantee every image meets accessibility standards automatically.
+
+## The solution workflow
+
+<Image src={workflow} alt="Workflow diagram" />
+
+### The technical backbone
+
+This workflow relies on simple but powerful integrations:
+
+- **GitHub Webhook + Node.js** backend  
+  Detects asset changes and triggers AI captioning.
+
+- **GPT-4o Multimodal API**  
+  Analyzes image content and generates concise, human-readable captions.
+
+- **CMS Integration**  
+  Stores image metadata and synchronizes with Spectrum documentation builds.
+
+- **Site Build Pipeline**  
+  Automatically injects ALT text from CMS metadata into rendered pages.
+
+> Accessibility is no longer a separate process — it’s built into the system.
+
+## Scaling up
+
+The architecture is modular and ready to scale:
+- **Multi-language support:** captions can be translated automatically via GPT-4o.
+- **Multiple sites:** easily extended across Spectrum Contributions, Patterns, and internal documentation.
+- **Consistent governance:** GitHub ensures transparent versioning and history tracking of every asset.
+
+## Related Reading
+- [Spectrum Documentation](https://spectrum.adobe.com)
+- [WCAG 2.1 Guidelines](https://www.w3.org/TR/WCAG21/)
+- [OpenAI GPT-4o Model Card](https://openai.com/index/gpt-4o-system-card/)
+
+<FeedbackFooter />
