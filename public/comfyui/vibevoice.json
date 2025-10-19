@@ -1,0 +1,328 @@
+{
+    "id": "ea7df172-99df-4824-835c-673cbecaeb9e",
+    "revision": 0,
+    "last_node_id": 5,
+    "last_link_id": 3,
+    "nodes": [
+        {
+            "id": 5,
+            "type": "LoadAudio",
+            "pos": [
+                -477.9277648925781,
+                -72.38760375976562
+            ],
+            "size": [
+                274.080078125,
+                136
+            ],
+            "flags": {},
+            "order": 0,
+            "mode": 0,
+            "inputs": [
+                {
+                    "localized_name": "audio",
+                    "name": "audio",
+                    "type": "COMBO",
+                    "widget": {
+                        "name": "audio"
+                    },
+                    "link": null
+                },
+                {
+                    "localized_name": "audioUI",
+                    "name": "audioUI",
+                    "type": "AUDIO_UI",
+                    "widget": {
+                        "name": "audioUI"
+                    },
+                    "link": null
+                },
+                {
+                    "localized_name": "choose file to upload",
+                    "name": "upload",
+                    "type": "AUDIOUPLOAD",
+                    "widget": {
+                        "name": "upload"
+                    },
+                    "link": null
+                }
+            ],
+            "outputs": [
+                {
+                    "localized_name": "AUDIO",
+                    "name": "AUDIO",
+                    "type": "AUDIO",
+                    "links": [
+                        3
+                    ]
+                }
+            ],
+            "properties": {
+                "cnr_id": "comfy-core",
+                "ver": "0.3.64",
+                "Node name for S&R": "LoadAudio"
+            },
+            "widgets_values": [
+                "Jian_Voice_2.m4a",
+                null,
+                ""
+            ]
+        },
+        {
+            "id": 2,
+            "type": "PreviewAudio",
+            "pos": [
+                342.7940368652344,
+                -69.40196990966797
+            ],
+            "size": [
+                270,
+                88
+            ],
+            "flags": {},
+            "order": 2,
+            "mode": 0,
+            "inputs": [
+                {
+                    "localized_name": "audio",
+                    "name": "audio",
+                    "type": "AUDIO",
+                    "link": 1
+                },
+                {
+                    "localized_name": "audioUI",
+                    "name": "audioUI",
+                    "type": "AUDIO_UI",
+                    "widget": {
+                        "name": "audioUI"
+                    },
+                    "link": null
+                }
+            ],
+            "outputs": [],
+            "properties": {
+                "cnr_id": "comfy-core",
+                "ver": "0.3.64",
+                "Node name for S&R": "PreviewAudio"
+            },
+            "widgets_values": [],
+            "color": "#323",
+            "bgcolor": "#535"
+        },
+        {
+            "id": 1,
+            "type": "VibeVoiceSingleSpeakerNode",
+            "pos": [
+                -114.02274322509766,
+                -74.15431213378906
+            ],
+            "size": [
+                400,
+                420
+            ],
+            "flags": {},
+            "order": 1,
+            "mode": 0,
+            "inputs": [
+                {
+                    "localized_name": "voice_to_clone",
+                    "name": "voice_to_clone",
+                    "shape": 7,
+                    "type": "AUDIO",
+                    "link": 3
+                },
+                {
+                    "localized_name": "lora",
+                    "name": "lora",
+                    "shape": 7,
+                    "type": "LORA_CONFIG",
+                    "link": null
+                },
+                {
+                    "localized_name": "text",
+                    "name": "text",
+                    "type": "STRING",
+                    "widget": {
+                        "name": "text"
+                    },
+                    "link": null
+                },
+                {
+                    "localized_name": "model",
+                    "name": "model",
+                    "type": "COMBO",
+                    "widget": {
+                        "name": "model"
+                    },
+                    "link": null
+                },
+                {
+                    "localized_name": "attention_type",
+                    "name": "attention_type",
+                    "type": "COMBO",
+                    "widget": {
+                        "name": "attention_type"
+                    },
+                    "link": null
+                },
+                {
+                    "localized_name": "quantize_llm",
+                    "name": "quantize_llm",
+                    "type": "COMBO",
+                    "widget": {
+                        "name": "quantize_llm"
+                    },
+                    "link": null
+                },
+                {
+                    "localized_name": "free_memory_after_generate",
+                    "name": "free_memory_after_generate",
+                    "type": "BOOLEAN",
+                    "widget": {
+                        "name": "free_memory_after_generate"
+                    },
+                    "link": null
+                },
+                {
+                    "localized_name": "diffusion_steps",
+                    "name": "diffusion_steps",
+                    "type": "INT",
+                    "widget": {
+                        "name": "diffusion_steps"
+                    },
+                    "link": null
+                },
+                {
+                    "localized_name": "seed",
+                    "name": "seed",
+                    "type": "INT",
+                    "widget": {
+                        "name": "seed"
+                    },
+                    "link": null
+                },
+                {
+                    "localized_name": "cfg_scale",
+                    "name": "cfg_scale",
+                    "type": "FLOAT",
+                    "widget": {
+                        "name": "cfg_scale"
+                    },
+                    "link": null
+                },
+                {
+                    "localized_name": "use_sampling",
+                    "name": "use_sampling",
+                    "type": "BOOLEAN",
+                    "widget": {
+                        "name": "use_sampling"
+                    },
+                    "link": null
+                },
+                {
+                    "localized_name": "temperature",
+                    "name": "temperature",
+                    "shape": 7,
+                    "type": "FLOAT",
+                    "widget": {
+                        "name": "temperature"
+                    },
+                    "link": null
+                },
+                {
+                    "localized_name": "top_p",
+                    "name": "top_p",
+                    "shape": 7,
+                    "type": "FLOAT",
+                    "widget": {
+                        "name": "top_p"
+                    },
+                    "link": null
+                },
+                {
+                    "localized_name": "max_words_per_chunk",
+                    "name": "max_words_per_chunk",
+                    "shape": 7,
+                    "type": "INT",
+                    "widget": {
+                        "name": "max_words_per_chunk"
+                    },
+                    "link": null
+                },
+                {
+                    "localized_name": "voice_speed_factor",
+                    "name": "voice_speed_factor",
+                    "shape": 7,
+                    "type": "FLOAT",
+                    "widget": {
+                        "name": "voice_speed_factor"
+                    },
+                    "link": null
+                }
+            ],
+            "outputs": [
+                {
+                    "localized_name": "audio",
+                    "name": "audio",
+                    "type": "AUDIO",
+                    "links": [
+                        1
+                    ]
+                }
+            ],
+            "properties": {
+                "cnr_id": "VibeVoice-ComfyUI",
+                "ver": "9185f531ac45fc67576f9877caf1a6c8c7d340b5",
+                "Node name for S&R": "VibeVoiceSingleSpeakerNode"
+            },
+            "widgets_values": [
+                "Every documentation page starts in Figma — with designers exporting hero images and other visuals used across Spectrum 2.\nBut there are hundreds of images to manage, and each update to the design system means exporting them again and again.\nThis is where automation helps.\nInstead of writing or updating alt text manually, AI now generates it instantly as images change — keeping accessibility consistent and effortless.",
+                "VibeVoice-Large",
+                "auto",
+                "full precision",
+                false,
+                20,
+                2123728032,
+                "randomize",
+                1.3,
+                false,
+                0.95,
+                0.95,
+                250,
+                1
+            ],
+            "color": "#332922",
+            "bgcolor": "#593930"
+        }
+    ],
+    "links": [
+        [
+            1,
+            1,
+            0,
+            2,
+            0,
+            "AUDIO"
+        ],
+        [
+            3,
+            5,
+            0,
+            1,
+            0,
+            "AUDIO"
+        ]
+    ],
+    "groups": [],
+    "config": {},
+    "extra": {
+        "ds": {
+            "scale": 0.8390545288824296,
+            "offset": [
+                762.0763907766099,
+                545.1806440789097
+            ]
+        }
+    },
+    "version": 0.4
+}
