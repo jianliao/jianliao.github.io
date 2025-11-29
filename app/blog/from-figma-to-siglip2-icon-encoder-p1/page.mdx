@@ -1,0 +1,125 @@
+import BlogHeader from '../BlogTitle';
+import FeedbackFooter from '../FeedbackFooter';
+import VideoPlayer from '../../components/VideoPlayer';
+import Image from 'next/image';
+import heroimage from './hero-image.png';
+
+export const metadata = {
+  title: "Figma ➜ SigLIP2: Lessons from Finetuning an Icon Encoder End-to-End (Part 1)",
+  description:
+    "An end-to-end journey of building a SigLIP2-based icon encoder — from harvesting icons in Figma, cleaning design-system data, and synthesizing captions with LLMs to releasing a production-ready model on Hugging Face.",
+  openGraph: {
+    title: "Figma ➜ SigLIP2: Lessons from Finetuning an Icon Encoder End-to-End (Part 1)",
+    description:
+      "From Figma canvases to a SigLIP2 icon encoder: how I cleaned design-system data, used LLMs for captions, and shipped an end-to-end model on Hugging Face.",
+    url: "/blog/from-figma-to-siglip2-icon-encoder-p1",
+    images: [
+      {
+        url: "/images/from-figma-to-siglip2-icon-encoder/social-thumbnail.png",
+        alt: "AI Alt Text Generator Workflow Diagram",
+      },
+    ],
+  },
+  twitter: {
+    title: "Figma ➜ SigLIP2: Lessons from Finetuning an Icon Encoder End-to-End (Part 1)",
+    images: ["/images/from-figma-to-siglip2-icon-encoder/social-thumbnail.png"],
+  },
+};
+
+<BlogHeader title="Figma ➜ Finetuned SigLIP2 ViT Icon Encoder" subtitle="Lessons from Finetuning an Icon Encoder End-to-End (Part 1)" postDate="2025-11-28" />
+
+<Image src={heroimage} alt="Figma ➜ SigLIP2: Lessons from Finetuning an Icon Encoder End-to-End (Part 1)" />
+
+## Introduction
+
+Most stories about SigLIP2 start from the model; this one starts from a Figma icon library. In this post I walk through how I, a design-system engineer rather than a full-time ML researcher, turned real Spectrum icons into a dataset for finetuning a SigLIP2 encoder. The pipeline goes from Figma projects → SVG exports → theme-correct PNGs → captions synthesized from component names, designer tags, and a vision-language model, all generated at scale with vLLM and reviewed through a set of small Gradio apps. On top of that dataset I finetune SigLIP2 into an icon-specialized encoder and evaluate it with an unseen-caption retrieval benchmark. The goal of the post is not to chase state-of-the-art numbers, but to show how existing engineering skills around APIs, data cleaning, and tooling are enough to ship an end-to-end model that actually understands your own design system.
+
+### TL;DR
+
+- Real-world pipeline: Figma icons → clean, theme-aware PNGs → captioned dataset → finetuned SigLIP2 encoder.
+- Captions come from a mix of designer tags, a thinking LLM, and a VLM, orchestrated with vLLM offline inference.
+- Gradio “vibe-coded” tools make human-in-the-loop data review practical for designer and engineer.
+
+## From Figma to Raw SVGs: Mining the Icon Library
+
+Before I could train anything, I needed a reliable way to turn a living Figma icon library into files on disk. The goal was simple: given a few [Figma projects](https://help.figma.com/hc/en-us/articles/1500005554982-Guide-to-files-and-projects), find every icon component that is still relevant, and export it as a clean SVG that I could process further.
+
+### Using Figma’s OpenAPI Instead of a Client SDK
+
+One of the nicest surprises in this project was Figma’s API design.
+Instead of shipping and maintaining official client SDKs for every language, Figma publishes an [OpenAPI 3.2.0 specification](https://github.com/figma/rest-api-spec) for their REST API. That means they only need to maintain a single API definition file, and users are free to generate their own client in whatever language they like.
+
+Since the rest of my pipeline was Python-based, I used the [openapi-python-client](https://github.com/openapi-generators/openapi-python-client) generator to produce a typed Python client from Figma’s OpenAPI spec. From that point on, the Figma API felt like a normal Python package: I could call methods, get structured responses, and treat it as just another dependency in my ML project.
+
+### Iterating Projects and Files
+
+The input to my script was deliberately simple: a small list of Figma project IDs.
+
+From there, the pipeline did the following:
+
+- Loop over each project ID.
+- For each project, fetch all design files.
+- For each file, walk the document tree and collect all components that represent icons.
+
+### Deduplication, Cross-File Matching, and Deprecation Rules
+
+To turn this raw list into a usable icon set, I added a few layers of logic:
+
+- **Component deduplication** – I merged components that were effectively the same icon across different files or projects, based on naming and metadata. This avoided training the model multiple times on what was essentially the same asset.
+- **Cross-file component detection** - Some icons had migrated between files over time. Matching them across files kept the dataset closer to the logical icon library instead of the historical layout of Figma documents.
+- **Deprecation filtering** – Designers had a convention for deprecated components: their names start with a special emoji(🚫). We agreed that anything following that pattern should be excluded from training. A single rule removed a lot of historical noise.
+
+A pleasant surprise was how much semantic information was already there. For a subset of components, designers had filled in the description field with tags and usage hints. Those human-written tags later became very strong signals when I built text captions for each icon.
+
+### Laying the Groundwork for Reuse
+
+The most important property of this step is that it’s **fully automated**:
+
+- Give the script a list of project IDs.
+- It discovers files, finds icon components, deduplicates them, filters out deprecated ones, and records metadata for the next stages.
+
+That makes the pipeline reusable in two ways:
+
+- If I ever want to finetune a new base model, I can rerun the same extraction and get an updated dataset with almost no manual work.
+- More importantly, the same mechanism can be extended beyond icons. In principle, the script could extract any kind of reusable design asset from Figma: illustration libraries, design system components or even UI patterns.
+
+## Cleaning SVGs and Rendering Theme-Correct PNGs
+
+After finding the icon components in Figma, I still needed something the model could actually see: pixels. That meant turning each component into a clean, theme-correct image.
+
+### SVG First, PNG Later
+
+I used Figma’s batch export API to download every icon as SVG, not PNG:
+
+- SVG is text, so styles and colors are easy to inspect and modify.
+- One SVG can produce many variants: different sizes and different themes (Dark, Darkest, Light, Lightest).
+- All fixes happen before rasterization, so there’s no quality loss.
+
+Only after cleaning the SVGs did I render them to PNG with [cairosvg](https://github.com/Kozea/CairoSVG), which plays nicely with standard vision libraries.
+
+### Fixing Styles, Colors, and Themes
+
+The raw SVGs weren’t consistent:
+
+- Mixed inline styles and hard-coded colors.
+- Historical theme differences between icons that were supposed to be identical.
+
+I added a small cleaning pipeline:
+
+- Strip unwanted inline styles and legacy color values.
+- For each theme, rewrite fills/strokes to the approved design-system colors.
+
+This step relied heavily on designers’ input to define the Spectrum 1 and Spectrum 2 color palettes.
+
+### Rendering PNGs and Dropping Blanks
+
+Once the SVGs were clean and theme-correct:
+
+- I rendered PNGs (per icon, per theme) at the target size.
+- Then removed blank or broken icons by checking simple pixel statistics (fully transparent or nearly empty images).
+
+It’s an unglamorous step, but crucial: if themes, colors, or basic visibility are wrong, the encoder will learn the wrong visual language of the design system.
+
+To be continued...
+
+<FeedbackFooter />
