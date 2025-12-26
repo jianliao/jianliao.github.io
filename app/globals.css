@@ -142,3 +142,16 @@ html.dark .section-header:after {
 *:hover > .section-header {
   visibility: visible;
 }
+
+/* Mermaid diagram styling - SSR with light/dark support */
+picture:has(source[media="(prefers-color-scheme: dark)"]) {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+picture:has(source[media="(prefers-color-scheme: dark)"]) img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}

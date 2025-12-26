@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeCodeTitles from "rehype-code-titles";
+import rehypeMermaid from "rehype-mermaid";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -21,6 +22,13 @@ const withMDX = createMDX({
     rehypePlugins: [
       rehypeSlug,
       rehypeCodeTitles,
+      [
+        rehypeMermaid,
+        {
+          strategy: "img-svg",
+          dark: { theme: "dark" },
+        },
+      ],
       [
         "rehype-pretty-code",
         {

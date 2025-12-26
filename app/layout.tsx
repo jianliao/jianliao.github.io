@@ -8,6 +8,7 @@ import Link from "next/link";
 import { FaGithub, FaHome, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { SiHuggingface } from "react-icons/si";
 import ThemeSwitcher from "./theme-switcher";
+import MermaidRenderer from "./components/MermaidRenderer";
 import { GoogleAnalytics } from '@next/third-parties/google'
 
 export const metadata: Metadata = {
@@ -71,6 +72,7 @@ export default function RootLayout({
     >
       <body className="antialiased tracking-tight">
         <ThemeProvider enableSystem={true} attribute="data-theme">
+          <MermaidRenderer />
           <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 pl-8 pr-8 pb-8">
             <main className="grow max-w-4xl mx-auto w-full space-y-6 p-8">
               {children}
