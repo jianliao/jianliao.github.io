@@ -59,7 +59,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Restore cache
+      - name: Restore Next.js cache
         uses: actions/cache@v4
         with:
           path: |
@@ -70,8 +70,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
 
+      - name: Restore Playwright cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}
+
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }} --force
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
 
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
