@@ -2,6 +2,8 @@ import BlogHeader from '../BlogTitle';
 import FeedbackFooter from '../FeedbackFooter';
 import Image from 'next/image';
 import heroImage from './heroimage.png';
+import singleSelectionImage from './single-selection.png';
+import multiSelectionImage from './multi-selection.png';
 
 export const metadata = {
   title: "Structured Input Showdown: How AI Coding Tools Collect User Preferences",
@@ -45,6 +47,10 @@ Structured input means the AI agent uses a dedicated tool to present the user wi
 
 Why does this matter? Fewer parsing errors. Faster interaction. Type-safe responses. And critically, support for multi-select — something chat-based numbered lists simply cannot handle reliably.
 
+Here is what it looks like in practice — Claude Code presenting a single-choice question with tabbed navigation and rich option descriptions:
+
+<Image src={singleSelectionImage} alt="Claude Code AskUserQuestion single-selection UI showing character race options with tabbed navigation" />
+
 Today, three major AI coding tools offer some form of this capability:
 
 | | Claude Code | Codex CLI | Cursor |
@@ -61,7 +67,11 @@ To stress-test these tools, I built a [Text RPG Character Creator](https://githu
 
 The most surprising discovery was that **the LLM rewrites your prompts**. Even though the benchmark specifies exact question text and option descriptions in the prompt, what the user actually sees is filtered through the model. Claude Code summarizes and abbreviates long descriptions to fit its UI constraints. Codex takes this further — it often strips question content down to bare keywords, showing only a terse label where the prompt had a rich paragraph. The structured input tool defines the *shape* of the interaction, but the model decides the *content*. Your carefully crafted copy is a suggestion, not a guarantee.
 
-The multi-select gap was equally revealing. Codex CLI does not currently support multi-select questions, so when the prompt says "pick 2–4 skills," the agent gets creative: it asks the same question repeatedly as single-select, filtering out previous choices each time, until the minimum count is met. Clever — but it exposes a subtle bug. If the instruction says "pick 2–4," users can only ever select exactly 2, because the agent stops asking once the floor is reached. The user never gets the chance to pick 3 or 4. It is strict instruction-following that produces a correct-looking but functionally limited result.
+The multi-select gap was equally revealing. Here is Claude Code's checkbox-style multi-select — the feature that other tools struggle with:
+
+<Image src={multiSelectionImage} alt="Claude Code AskUserQuestion multi-selection UI showing skill checkboxes with multiple selections" />
+
+Codex CLI does not currently support multi-select questions, so when the prompt says "pick 2–4 skills," the agent gets creative: it asks the same question repeatedly as single-select, filtering out previous choices each time, until the minimum count is met. Clever — but it exposes a subtle bug. If the instruction says "pick 2–4," users can only ever select exactly 2, because the agent stops asking once the floor is reached. The user never gets the chance to pick 3 or 4. It is strict instruction-following that produces a correct-looking but functionally limited result.
 
 There is also a shared constraint: both Codex and Cursor restrict structured input to **plan mode** only. In default/agent mode, these tools are simply unavailable. Community members on both platforms have already filed requests to extend support to all modes — a sign that developers want this capability everywhere, not just during planning.
 
