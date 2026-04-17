@@ -1,0 +1,88 @@
+import BlogHeader from '../BlogTitle';
+import FeedbackFooter from '../FeedbackFooter';
+import VideoPlayer from '../../components/VideoPlayer';
+
+export const metadata = {
+  title: "Icon In Action: See Icons in Real Product UIs",
+  description:
+    "Introducing Icon In Action — the most significant feature update to Icon Search in 2026. See how it brings icons to life by showing real-world product context, bounding-box localization, and seamless design-to-code handoff.",
+  openGraph: {
+    title: "Icon In Action: See Icons in Real Product UIs",
+    description:
+      "A walkthrough of Icon In Action — the 2026 flagship feature for Icon Search that shows where and how every icon is actually used across Adobe's product ecosystem.",
+    url: "/blog/icon-in-action",
+    images: [
+      {
+        url: "/images/icon-in-action/thumbnail.jpeg",
+        alt: "Icon In Action feature preview",
+      },
+    ],
+  },
+  twitter: {
+    title: "Icon In Action: See Icons in Real Product UIs",
+    images: ["/images/icon-in-action/thumbnail.jpeg"],
+  },
+};
+
+<BlogHeader title="Icon In Action: See Icons in Real Product UIs" postDate="2026-04-17" />
+
+## Introduction
+
+**Icon Search** just got its biggest update of 2026 — introducing **Icon In Action**, a feature that fundamentally changes how designers and developers discover and evaluate icons.
+
+Instead of browsing static SVG files in isolation, you can now see where every icon is **actually used across real product UIs**, with spatial context, bounding-box localization, and direct handoff to your design and development tools.
+
+---
+
+## Watch the demo (4:30)
+
+A complete walkthrough of Icon Search and the new Icon In Action feature.
+
+<VideoPlayer
+  src="/videos/icon-in-action/icon_in_action.mp4"
+  poster="/images/icon-in-action/thumbnail.jpeg"
+  captions={[
+    { src: "/videos/icon-in-action/caption.vtt", srcLang: "en", label: "English", default: true }
+  ]}
+  title="Icon In Action feature demo video"
+/>
+
+## Icon Search at a glance
+
+**Icon Finder** is a multimodal search system built for the Spectrum design system. It offers four specialized search modes:
+
+| Mode | Description |
+|---|---|
+| **Match** | Find assets by uploading icon screenshots |
+| **Describe** | Semantic search using natural language descriptions |
+| **Keyword** | Precise, tag-based retrieval |
+| **Usage** | Discover how specific icons are implemented within real product UIs |
+
+The left panel provides global filtering across **Spectrum design system versions** and **product lines**, while the central workspace supports drag-and-drop or direct text input to instantly initiate a search.
+
+Results are intelligently grouped by unique asset name, with a purple badge indicating the total number of variants within each group. You can further narrow down results using the **Style** filter (by asset type) and the **Category** section (powered by underlying icon tags for metadata-driven refinement).
+
+## What is Icon In Action?
+
+**Icon In Action** is the centerpiece of the detail view. When you select a search result, the right-side panel presents specific asset information — and the **Icon In Action** section provides immediate, real-world context by showcasing actual product screenshots from applications like **Animate**, **Express**, and **Creative Cloud** where the exact icon is currently deployed.
+
+### Lightbox view with spatial context
+
+Clicking a product screenshot launches an expanded Lightbox view. The system automatically identifies and highlights every instance of the icon across the entire screen with prominent **orange bounding boxes**, pinpointing exactly where the asset is implemented within the complex UI — simultaneously returning all occurrences.
+
+## Design-to-code handoff
+
+The resources section provides direct handoff integrations:
+
+- **Figma deep links** route you instantly to the exact asset within the official icon library file
+- **Upcoming A4U integration** with an internal Artifactory service will bridge the gap from design to code, allowing you to directly retrieve the corresponding NPM packages straight from the interface
+
+## Usage search: find icons in the wild
+
+The **Usage** search mode takes a different approach. By entering a text description like "crop image", the engine scans the entire database of recorded product screenshots and returns **exact image crops** of matching icons found in real UI environments — complete with the same Lightbox view and bounding-box localization.
+
+## What's next
+
+This search paradigm extends far beyond icons. The same architecture will scale to power the discovery of **complex illustrations** and **comprehensive UI patterns**, bridging past implementations with future design concepts — empowering designers with immediate inspiration while ensuring a seamlessly consistent look and feel across the entire product ecosystem.
+
+<FeedbackFooter />

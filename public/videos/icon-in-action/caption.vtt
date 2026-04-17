@@ -1,0 +1,301 @@
+WEBVTT
+
+1
+00:00:00.364 --> 00:00:05.131
+Hello everyone, Icon Finder
+is a multimodal search system featuring
+
+2
+00:00:05.161 --> 00:00:08.167
+four specialized modes: 'Match'
+
+3
+00:00:08.622 --> 00:00:12.205
+finds assets
+via uploaded icon screenshots.
+
+4
+00:00:13.086 --> 00:00:16.000
+'Describe' leverages
+semantic search to locate
+
+5
+00:00:16.000 --> 00:00:19.492
+icons based on your natural language
+descriptions.
+
+6
+00:00:19.735 --> 00:00:23.530
+'Keyword' provides
+precise, tag-based retrieval.
+
+7
+00:00:23.804 --> 00:00:27.690
+Finally, 'Usage' locates
+how specific icons
+
+8
+00:00:27.690 --> 00:00:30.726
+are implemented within real product UIs.
+
+9
+00:00:31.607 --> 00:00:34.825
+The left panel offers global filtering
+across
+
+10
+00:00:34.825 --> 00:00:38.620
+Spectrum design system
+versions and product lines.
+
+11
+00:00:39.562 --> 00:00:42.659
+The central workspace
+supports drag-and-drop
+
+12
+00:00:42.659 --> 00:00:46.636
+or direct input to instantly initiate
+your search.
+
+13
+00:00:46.970 --> 00:00:49.733
+Upon uploading an icon screenshot,
+
+14
+00:00:49.733 --> 00:00:53.134
+the system instantly retrieves
+visual matches.
+
+15
+00:00:53.316 --> 00:00:57.081
+To streamline browsing,
+results are intelligently grouped
+
+16
+00:00:57.081 --> 00:00:59.327
+by unique asset name.
+
+17
+00:00:59.327 --> 00:01:02.212
+The purple badge on a card indicates
+
+18
+00:01:02.212 --> 00:01:06.705
+the total number of variants
+within that specific asset group.
+
+19
+00:01:07.525 --> 00:01:11.169
+On the left panel,
+you can further narrow down your results.
+
+20
+00:01:11.624 --> 00:01:15.450
+Use the 'Style' section
+to filter by asset type,
+
+21
+00:01:15.996 --> 00:01:20.885
+or utilize the 'Category'
+section which is powered by underlying
+
+22
+00:01:20.885 --> 00:01:25.196
+icon tags for
+precise, metadata-driven refinement.
+
+23
+00:01:25.196 --> 00:01:31.754
+Selecting a result opens
+the detail view in the right-side
+
+24
+00:01:31.754 --> 00:01:35.033
+panel,
+presenting specific asset information.
+
+25
+00:01:35.033 --> 00:01:41.561
+A key feature here is the 'Icon
+in action' section.
+
+26
+00:01:41.561 --> 00:01:46.176
+This provides immediate,
+real-world context by showcasing
+
+27
+00:01:46.176 --> 00:01:50.761
+actual product screenshots—across
+applications like Animate, Express,
+
+28
+00:01:50.761 --> 00:01:56.651
+and Creative Cloud—where
+this exact icon is currently deployed.
+
+29
+00:01:56.743 --> 00:02:00.295
+Clicking a product screenshot launches
+an expanded
+
+30
+00:02:00.295 --> 00:02:04.242
+Lightbox view for precise spatial context.
+
+31
+00:02:05.517 --> 00:02:08.523
+Observe
+the prominent orange bounding boxes.
+
+32
+00:02:10.041 --> 00:02:12.774
+These immediately pinpoint exactly
+
+33
+00:02:12.774 --> 00:02:17.176
+where the asset is implemented
+within the complex UI.
+
+34
+00:02:17.966 --> 00:02:22.581
+Furthermore, the system
+automatically identifies and highlights
+
+35
+00:02:22.611 --> 00:02:27.773
+every instance of the icon
+across the entire screen, simultaneously
+
+36
+00:02:29.200 --> 00:02:31.204
+returning to the detail panel.
+
+37
+00:02:31.204 --> 00:02:34.361
+Expanding the resources
+section reveals direct
+
+38
+00:02:34.422 --> 00:02:37.944
+handoff integrations for designers.
+
+39
+00:02:37.975 --> 00:02:41.800
+Figma deep links route
+you instantly to the exact asset
+
+40
+00:02:41.861 --> 00:02:44.958
+within the official icon library file.
+
+41
+00:02:45.565 --> 00:02:49.694
+For developers upcoming integration
+with A4U.
+
+42
+00:02:50.453 --> 00:02:52.943
+Our internal Artifactory service
+
+43
+00:02:52.943 --> 00:02:58.135
+will bridge the gap from design to code,
+allowing you to directly retrieve
+
+44
+00:02:58.135 --> 00:03:02.689
+the corresponding NPM packages
+straight from this interface.
+
+45
+00:03:03.357 --> 00:03:07.517
+Finally, let's explore
+the usage search mode
+
+46
+00:03:08.732 --> 00:03:13.316
+by simply entering a text description
+like crop image.
+
+47
+00:03:13.620 --> 00:03:18.964
+The engine scans our entire database
+of recorded product screenshots.
+
+48
+00:03:19.207 --> 00:03:23.063
+It directly returns the exact image crops
+
+49
+00:03:23.063 --> 00:03:27.799
+of matching icons found in real
+UI environments.
+
+50
+00:03:28.346 --> 00:03:32.961
+Selecting a result opens
+the source interface in the Lightbox view.
+
+51
+00:03:33.902 --> 00:03:37.819
+Here, the prominent orange bounding
+box pinpoints
+
+52
+00:03:37.819 --> 00:03:42.373
+the icons exact coordinates on the screen,
+giving you immediately
+
+53
+00:03:42.464 --> 00:03:47.504
+indisputable context of how
+the asset is implemented in production.
+
+54
+00:03:48.658 --> 00:03:50.055
+This search paradigm
+
+55
+00:03:50.055 --> 00:03:53.061
+extends far beyond icons.
+
+56
+00:03:53.941 --> 00:03:58.283
+Moving forward,
+this same architecture will scale to power
+
+57
+00:03:58.283 --> 00:04:03.900
+the discovery of complex illustrations
+and comprehensive UI patterns.
+
+58
+00:04:04.416 --> 00:04:09.426
+By bridging past implementations
+with future design concepts, it
+
+59
+00:04:09.456 --> 00:04:14.162
+empowers designers
+with immediate inspiration while ensuring
+
+60
+00:04:14.162 --> 00:04:17.897
+a seamlessly consistent
+look and feel across
+
+61
+00:04:17.897 --> 00:04:20.903
+our entire product ecosystem.
+
+62
+00:04:22.057 --> 00:04:25.821
+The audio is automatically generated
+synthesized
+
+63
+00:04:25.821 --> 00:04:29.738
+by an AI model solely
+to demonstrate the new features.

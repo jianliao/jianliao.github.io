@@ -1,0 +1,299 @@
+﻿1
+00:00:00,364 --> 00:00:05,131
+<font color=#050505FF>Hello everyone, Icon Finder</font>
+<font color=#050505FF>is a multimodal search system featuring</font>
+
+2
+00:00:05,161 --> 00:00:08,167
+<font color=#050505FF>four specialized modes: ‘Match’</font>
+
+3
+00:00:08,622 --> 00:00:12,205
+<font color=#050505FF>finds assets</font>
+<font color=#050505FF>via uploaded icon screenshots.</font>
+
+4
+00:00:13,086 --> 00:00:16,000
+<font color=#050505FF>‘Describe’ leverages</font>
+<font color=#050505FF>semantic search to locate</font>
+
+5
+00:00:16,000 --> 00:00:19,492
+<font color=#050505FF>icons based on your natural language</font>
+<font color=#050505FF>descriptions.</font>
+
+6
+00:00:19,735 --> 00:00:23,530
+<font color=#050505FF>‘Keyword’ provides</font>
+<font color=#050505FF>precise, tag-based retrieval.</font>
+
+7
+00:00:23,804 --> 00:00:27,690
+<font color=#050505FF>Finally, ‘Usage’ locates</font>
+<font color=#050505FF>how specific icons</font>
+
+8
+00:00:27,690 --> 00:00:30,726
+<font color=#050505FF>are implemented within real product UIs.</font>
+
+9
+00:00:31,607 --> 00:00:34,825
+<font color=#050505FF>The left panel offers global filtering</font>
+<font color=#050505FF>across</font>
+
+10
+00:00:34,825 --> 00:00:38,620
+<font color=#050505FF>Spectrum design system</font>
+<font color=#050505FF>versions and product lines.</font>
+
+11
+00:00:39,562 --> 00:00:42,659
+<font color=#050505FF>The central workspace</font>
+<font color=#050505FF>supports drag-and-drop</font>
+
+12
+00:00:42,659 --> 00:00:46,636
+<font color=#050505FF>or direct input to instantly initiate</font>
+<font color=#050505FF>your search.</font>
+
+13
+00:00:46,970 --> 00:00:49,733
+<font color=#050505FF>Upon uploading an icon screenshot,</font>
+
+14
+00:00:49,733 --> 00:00:53,134
+<font color=#050505FF>the system instantly retrieves</font>
+<font color=#050505FF>visual matches.</font>
+
+15
+00:00:53,316 --> 00:00:57,081
+<font color=#050505FF>To streamline browsing,</font>
+<font color=#050505FF>results are intelligently grouped</font>
+
+16
+00:00:57,081 --> 00:00:59,327
+<font color=#050505FF>by unique asset name.</font>
+
+17
+00:00:59,327 --> 00:01:02,212
+<font color=#050505FF>The purple badge on a card indicates</font>
+
+18
+00:01:02,212 --> 00:01:06,705
+<font color=#050505FF>the total number of variants</font>
+<font color=#050505FF>within that specific asset group.</font>
+
+19
+00:01:07,525 --> 00:01:11,169
+<font color=#050505FF>On the left panel,</font>
+<font color=#050505FF>you can further narrow down your results.</font>
+
+20
+00:01:11,624 --> 00:01:15,450
+<font color=#050505FF>Use the ‘Style’ section</font>
+<font color=#050505FF>to filter by asset type,</font>
+
+21
+00:01:15,996 --> 00:01:20,885
+<font color=#050505FF>or utilize the ‘Category’</font>
+<font color=#050505FF>section which is powered by underlying</font>
+
+22
+00:01:20,885 --> 00:01:25,196
+<font color=#050505FF>icon tags for</font>
+<font color=#050505FF>precise, metadata-driven refinement.</font>
+
+23
+00:01:25,196 --> 00:01:31,754
+<font color=#050505FF>Selecting a result opens</font>
+<font color=#050505FF>the detail view in the right-side</font>
+
+24
+00:01:31,754 --> 00:01:35,033
+<font color=#050505FF>panel,</font>
+<font color=#050505FF>presenting specific asset information.</font>
+
+25
+00:01:35,033 --> 00:01:41,561
+<font color=#050505FF>A key feature here is the ‘Icon</font>
+<font color=#050505FF>in action’ section.</font>
+
+26
+00:01:41,561 --> 00:01:46,176
+<font color=#050505FF>This provides immediate,</font>
+<font color=#050505FF>real-world context by showcasing</font>
+
+27
+00:01:46,176 --> 00:01:50,761
+<font color=#050505FF>actual product screenshots—across</font>
+<font color=#050505FF>applications like Animate, Express,</font>
+
+28
+00:01:50,761 --> 00:01:56,651
+<font color=#050505FF>and Creative Cloud—where</font>
+<font color=#050505FF>this exact icon is currently deployed.</font>
+
+29
+00:01:56,743 --> 00:02:00,295
+<font color=#050505FF>Clicking a product screenshot launches</font>
+<font color=#050505FF>an expanded</font>
+
+30
+00:02:00,295 --> 00:02:04,242
+<font color=#050505FF>Lightbox view for precise spatial context.</font>
+
+31
+00:02:05,517 --> 00:02:08,523
+<font color=#050505FF>Observe</font>
+<font color=#050505FF>the prominent orange bounding boxes.</font>
+
+32
+00:02:10,041 --> 00:02:12,774
+<font color=#050505FF>These immediately pinpoint exactly</font>
+
+33
+00:02:12,774 --> 00:02:17,176
+<font color=#050505FF>where the asset is implemented</font>
+<font color=#050505FF>within the complex UI.</font>
+
+34
+00:02:17,966 --> 00:02:22,581
+<font color=#050505FF>Furthermore, the system</font>
+<font color=#050505FF>automatically identifies and highlights</font>
+
+35
+00:02:22,611 --> 00:02:27,773
+<font color=#050505FF>every instance of the icon</font>
+<font color=#050505FF>across the entire screen, simultaneously</font>
+
+36
+00:02:29,200 --> 00:02:31,204
+<font color=#050505FF>returning to the detail panel.</font>
+
+37
+00:02:31,204 --> 00:02:34,361
+<font color=#050505FF>Expanding the resources</font>
+<font color=#050505FF>section reveals direct</font>
+
+38
+00:02:34,422 --> 00:02:37,944
+<font color=#050505FF>handoff integrations for designers.</font>
+
+39
+00:02:37,975 --> 00:02:41,800
+<font color=#050505FF>Figma deep links route</font>
+<font color=#050505FF>you instantly to the exact asset</font>
+
+40
+00:02:41,861 --> 00:02:44,958
+<font color=#050505FF>within the official icon library file.</font>
+
+41
+00:02:45,565 --> 00:02:49,694
+<font color=#050505FF>For developers upcoming integration</font>
+<font color=#050505FF>with A4U.</font>
+
+42
+00:02:50,453 --> 00:02:52,943
+<font color=#050505FF>Our internal Artifactory service</font>
+
+43
+00:02:52,943 --> 00:02:58,135
+<font color=#050505FF>will bridge the gap from design to code,</font>
+<font color=#050505FF>allowing you to directly retrieve</font>
+
+44
+00:02:58,135 --> 00:03:02,689
+<font color=#050505FF>the corresponding NPM packages</font>
+<font color=#050505FF>straight from this interface.</font>
+
+45
+00:03:03,357 --> 00:03:07,517
+<font color=#050505FF>Finally, let's explore</font>
+<font color=#050505FF>the usage search mode</font>
+
+46
+00:03:08,732 --> 00:03:13,316
+<font color=#050505FF>by simply entering a text description</font>
+<font color=#050505FF>like crop image.</font>
+
+47
+00:03:13,620 --> 00:03:18,964
+<font color=#050505FF>The engine scans our entire database</font>
+<font color=#050505FF>of recorded product screenshots.</font>
+
+48
+00:03:19,207 --> 00:03:23,063
+<font color=#050505FF>It directly returns the exact image crops</font>
+
+49
+00:03:23,063 --> 00:03:27,799
+<font color=#050505FF>of matching icons found in real</font>
+<font color=#050505FF>UI environments.</font>
+
+50
+00:03:28,346 --> 00:03:32,961
+<font color=#050505FF>Selecting a result opens</font>
+<font color=#050505FF>the source interface in the Lightbox view.</font>
+
+51
+00:03:33,902 --> 00:03:37,819
+<font color=#050505FF>Here, the prominent orange bounding</font>
+<font color=#050505FF>box pinpoints</font>
+
+52
+00:03:37,819 --> 00:03:42,373
+<font color=#050505FF>the icons exact coordinates on the screen,</font>
+<font color=#050505FF>giving you immediately</font>
+
+53
+00:03:42,464 --> 00:03:47,504
+<font color=#050505FF>indisputable context of how</font>
+<font color=#050505FF>the asset is implemented in production.</font>
+
+54
+00:03:48,658 --> 00:03:50,055
+<font color=#050505FF>This search paradigm</font>
+
+55
+00:03:50,055 --> 00:03:53,061
+<font color=#050505FF>extends far beyond icons.</font>
+
+56
+00:03:53,941 --> 00:03:58,283
+<font color=#050505FF>Moving forward,</font>
+<font color=#050505FF>this same architecture will scale to power</font>
+
+57
+00:03:58,283 --> 00:04:03,900
+<font color=#050505FF>the discovery of complex illustrations</font>
+<font color=#050505FF>and comprehensive UI patterns.</font>
+
+58
+00:04:04,416 --> 00:04:09,426
+<font color=#050505FF>By bridging past implementations</font>
+<font color=#050505FF>with future design concepts, it</font>
+
+59
+00:04:09,456 --> 00:04:14,162
+<font color=#050505FF>empowers designers</font>
+<font color=#050505FF>with immediate inspiration while ensuring</font>
+
+60
+00:04:14,162 --> 00:04:17,897
+<font color=#050505FF>a seamlessly consistent</font>
+<font color=#050505FF>look and feel across</font>
+
+61
+00:04:17,897 --> 00:04:20,903
+<font color=#050505FF>our entire product ecosystem.</font>
+
+62
+00:04:22,057 --> 00:04:25,821
+<font color=#050505FF>The audio is automatically generated</font>
+<font color=#050505FF>synthesized</font>
+
+63
+00:04:25,821 --> 00:04:29,738
+<font color=#050505FF>by an AI model solely</font>
+<font color=#050505FF>to demonstrate the new features.</font>
