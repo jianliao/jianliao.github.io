@@ -1,12 +1,5 @@
 import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import rehypeCodeTitles from "rehype-code-titles";
-import rehypeMermaid from "rehype-mermaid";
-import remarkGfm from "remark-gfm";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import rehypeSlug from "rehype-slug";
 
 const nextConfig: NextConfig = {
   images: {
@@ -18,12 +11,12 @@ const nextConfig: NextConfig = {
 
 const withMDX = createMDX({
   options: {
-    remarkPlugins: [remarkGfm, remarkMath],
+    remarkPlugins: ["remark-gfm", "remark-math"],
     rehypePlugins: [
-      rehypeSlug,
-      rehypeCodeTitles,
+      "rehype-slug",
+      "rehype-code-titles",
       [
-        rehypeMermaid,
+        "rehype-mermaid",
         {
           strategy: "img-svg",
           dark: { theme: "dark" },
@@ -35,9 +28,9 @@ const withMDX = createMDX({
           theme: "solarized-light",
         },
       ],
-      rehypeKatex,
+      "rehype-katex",
       [
-        rehypeAutolinkHeadings,
+        "rehype-autolink-headings",
         {
           properties: {
             className: ["section-header"],
