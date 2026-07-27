@@ -2,8 +2,8 @@ import BlogHeader from '../BlogTitle';
 import FeedbackFooter from '../FeedbackFooter';
 import Image from 'next/image';
 import heroimage from './hero-image.png';
-import alignment3dBreakdownimage from './alignment3d-breakdown.png';
-import multiMeaningGlyphimage from './multi-meaning-glyph.png';
+import Alignment3D from './Alignment3D.png';
+import multiMeaningGlyphimage from './ZoomIn.png';
 
 export const metadata = {
   title: "Icon ➜ Tags: Auto-Tagging an Icon Library with a Zero-Shot VLM (Part 1)",
@@ -16,14 +16,14 @@ export const metadata = {
     url: "/blog/icon-auto-tagging-p1",
     images: [
       {
-        url: "/images/icon-auto-tagging/social-thumbnail-p1.png",
+        url: "/images/icon-auto-tagging/social-thumbnail-p1.jpg",
         alt: "Icon ➜ Tags — Part 1",
       },
     ],
   },
   twitter: {
     title: "Icon ➜ Tags: Auto-Tagging an Icon Library with a Zero-Shot VLM (Part 1)",
-    images: ["/images/icon-auto-tagging/social-thumbnail-p1.png"],
+    images: ["/images/icon-auto-tagging/social-thumbnail-p1.jpg"],
   },
 };
 
@@ -33,7 +33,7 @@ export const metadata = {
 
 ## Introduction
 
-In my earlier post [Icon In Action](/blog/icon-in-action), I introduced Icon Search, a multimodal search system for the Spectrum design system. It has four modes: *Match* (find an icon by uploading a screenshot), *Describe* ([semantic search](/blog/from-figma-to-siglip2-icon-encoder-p1)), *Keyword* (retrieve icons by tag), and *Usage* (find icons inside real product UIs).
+In my earlier post [Icon In Action](/blog/icon-in-action), I introduced Icon Search, a multimodal search system for the Adobe icon system. It has four modes: *Match* (find an icon by uploading a screenshot), *Describe* ([semantic search](/blog/from-figma-to-siglip2-icon-encoder-p1)), *Keyword* (retrieve icons by tag), and *Usage* (find icons inside real product UIs).
 
 Two of these modes, **Keyword** and the **Category** filter, rely on something that is easy to ignore: every icon has to carry structured, consistent metadata. Without tags, there is no keyword search.
 
@@ -53,7 +53,9 @@ Tagging an icon sounds like image classification: look at the picture, pick a la
 
 A **magnifier** can mean *search*, *zoom*, *inspect*, or *find*. A **gear** can mean *settings*, *configuration*, or *properties*. A **trash can** is clearly *delete*, or maybe *remove*, *trash*, *clear*, or *discard*. All of these are reasonable answers, and none of them is "the correct one" unless we agree on a convention first.
 
-<Image src={multiMeaningGlyphimage} alt="One icon can map to several intents. A magnifier might mean search, zoom, or inspect." />
+<div className="flex justify-center">
+  <Image src={multiMeaningGlyphimage} alt="One icon can map to several intents. A magnifier might mean search, zoom, or inspect." />
+</div>
 
 This ambiguity appears as soon as you ask humans to do the tagging. During this project, two designers tagged the same set of icons independently, and on many icons they simply disagreed. If two careful people can look at the same icon and pick different tags, then "correct" is not a property of the icon itself. It is a convention that we have to decide and write down.
 
@@ -74,9 +76,11 @@ Instead of one tag, every icon gets up to six facets:
 | `visual_trait` | how it is drawn | `circular`, `dashed`, `3d_perspective` |
 | `interaction_mode` | the UI pattern | `toggle`, `drag_handle`, `state_indicator` |
 
-To see why facets work better than a flat tag list, take one real icon: `S2_Cur_Alignment3D_1_1`, a cursor placed over some 3D blocks.
+To see why facets work better than a flat tag list, take one real icon: `Alignment3D`, a cursor following an object's aligned symbol.
 
-<Image src={alignment3dBreakdownimage} alt="The Alignment3D icon broken down into its six facets." />
+<div className="flex justify-center">
+  <Image src={Alignment3D} alt="The Alignment3D icon broken down into its six facets." />
+</div>
 
 It separates cleanly:
 
@@ -120,7 +124,7 @@ This reframes the whole project. If the schema is the bottleneck, then the model
 
 So we have a precise, six-facet schema, and about 30,000 icons that still need to be filled in. Can a model do this reliably?
 
-A vision-language model can do something a pure image classifier cannot: it can *see* the icon and also *read* its name, and then weigh the two against each other. In [Part 2](/blog/icon-auto-tagging-p2), I will show how a 27B-parameter VLM tags icons zero-shot, with no fine-tuning, the prompt that makes it reliable, and the moment I abandoned a fancier approach for something much simpler.
+A vision-language model can do something a pure image classifier cannot: it can *see* the icon and also *read* its name, and then weigh the two against each other. In Part 2, I will show how a 27B-parameter VLM tags icons zero-shot, with no fine-tuning, the prompt that makes it reliable, and the moment I abandoned a fancier approach for something much simpler.
 
 To be continued...
 
