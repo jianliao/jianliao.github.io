@@ -1,0 +1,72 @@
+import BlogHeader from '../BlogTitle';
+import FeedbackFooter from '../FeedbackFooter';
+import Image from 'next/image';
+import introBook from './introduction-of-linear-algebra-6th.jpeg';
+import forEveryone from './linear-algebra-for-everyone.jpeg';
+import learningFromData from './linear-algebra-and-learning-from-data.jpeg';
+
+export const metadata = {
+  title: "Five Reflections on Studying Gilbert Strang's Linear Algebra",
+  description:
+    "What I wish I had known before starting Gilbert Strang's linear algebra books and MIT lectures — about the learning style, which book to start with, when to switch to Linear Algebra and Learning from Data, the exercises, and his legendary teaching.",
+  openGraph: {
+    title: "Five Reflections on Studying Gilbert Strang's Linear Algebra",
+    description:
+      "The books, the exercises, and the legendary MIT lectures — five things I wish I had known before studying Gilbert Strang's linear algebra.",
+    url: "/blog/gilbert-strang-linear-algebra-reflections",
+    images: [
+      {
+        url: "/images/gilbert-strang-linear-algebra-reflections/social-thumbnail.jpg",
+        alt: "Five Reflections on Studying Gilbert Strang's Linear Algebra",
+      },
+    ],
+  },
+  twitter: {
+    title: "Five Reflections on Studying Gilbert Strang's Linear Algebra",
+    images: ["/images/gilbert-strang-linear-algebra-reflections/social-thumbnail.jpg"],
+  },
+};
+
+<BlogHeader title="Five Reflections on Studying Gilbert Strang's Linear Algebra" subtitle="The books, the exercises, and the legendary MIT lectures — what I wish I had known going in." postDate="2026-08-09" />
+
+In my [2025 year-end reflections](/blog/2025-year-end-reflections), I wrote about turning back to mathematics as something solid to hold onto in an uncertain world. Linear algebra is where I chose to begin, and the books and MIT lectures of **Gilbert Strang** became my companions. After months of working through them, here are five reflections I want to pass along to anyone walking the same path.
+
+## 1. His learning style is not for everyone
+
+Strang teaches by intuition, geometry, and example — not through the strict definition → theorem → proof → Q.E.D. chain. If, like me, you were shaped by the Chinese education system, where rigor and formal proof are prized above all else, his loose, conversational style can feel almost imprecise at first.
+
+That feeling is worth naming before you begin rather than halfway through. If a proof-first approach is what you need for a result to feel truly "earned," Strang may frustrate you more than he inspires you. He is simply not your first choice — and that is an entirely fine thing to admit up front.
+
+## 2. Start with *Introduction to Linear Algebra*
+
+If your goal is to genuinely master **classical** linear algebra — vectors, matrices, the four fundamental subspaces, determinants, eigenvalues, the SVD — start with *Introduction to Linear Algebra*. It is the center of gravity of his entire body of work, and nearly everything else he writes quietly assumes you already know what is in it.
+
+<div className="flex justify-center my-8">
+  <Image src={introBook} alt="Introduction to Linear Algebra, Sixth Edition by Gilbert Strang" style={{ width: '300px', height: 'auto' }} className="rounded-lg shadow-lg" />
+</div>
+
+## 3. Don't be misled by *Linear Algebra for Everyone*
+
+The title *Linear Algebra for Everyone* is genuinely misleading — at the very least, it misled me. I picked it up expecting a gentler on-ramp, and it is not the best place to start.
+
+Here is my specific advice: read it only as far as **Section 7.1 (the SVD)**, and then stop. At that point, switch directly to ***Linear Algebra and Learning from Data*** and read it from the very beginning — do not skip ahead. That book is a remarkably efficient review of all the core concepts you have just learned, and, crucially, it then turns around and walks you straight into modern **deep learning, neural networks, and machine learning**. It is the bridge from "classical linear algebra" to "the math that makes AI work," and it is worth crossing deliberately.
+
+<div className="flex flex-wrap justify-center items-center gap-6 my-8">
+  <Image src={forEveryone} alt="Linear Algebra for Everyone by Gilbert Strang — stop at Section 7.1 (SVD)" style={{ width: '200px', height: 'auto' }} className="rounded-lg shadow-lg" />
+  <span className="text-3xl text-gray-400 dark:text-gray-500 font-light">→</span>
+  <Image src={learningFromData} alt="Linear Algebra and Learning from Data by Gilbert Strang — the recommended next step" style={{ width: '200px', height: 'auto' }} className="rounded-lg shadow-lg" />
+</div>
+
+## 4. Do not skip the exercises
+
+This is the one I almost got wrong. It is tempting to read Strang's prose, nod along, and move on — his writing has a way of making everything feel obvious. But almost every problem he designs is more than a mechanical calculation. Each one is built to carry a deeper mathematical meaning, and working through them is where the actual understanding happens. A chapter read without its exercises is a chapter half-read.
+
+## 5. The MIT lectures are a masterclass in teaching
+
+Professor Strang is a legendary educator, and two things make his MIT lectures — freely available on YouTube — extraordinary.
+
+First, he likes to hide puzzles in the most unnoticeable corners: a stray number, an offhand comment, a matrix drawn just slightly differently. He rewards the student who notices.
+
+Second, he is a performer. The pacing is perfect. Every pause, every stutter, every apparent "mistake" on the chalkboard is deliberate — choreographed to slow you down and push you toward independent thinking. Watch actively, chalk in hand, and you will see exactly what I mean.
+
+<FeedbackFooter />
