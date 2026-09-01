@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     type: "website",
     images:[
       {
-        url: "/images/avatar.png",
+        url: "/images/avatar.jpg",
         alt: "Finetune CLIP model",
       }
     ]
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   twitter: {
     title: "Jian Liao",
     card: "summary_large_image",
-    images: ["/images/avatar.png"]
+    images: ["/images/avatar.jpg"]
   },
   robots: {
     index: true,

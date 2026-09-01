@@ -10,7 +10,7 @@ export default function HomeCard() {
           alt="Saint, my pet cat"
           width={120}
           height={120}
-          src="/images/avatar.png"
+          src="/images/avatar.jpg"
           priority
         />
         <div className="flex flex-col w-96 space-y-4">
